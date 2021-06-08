@@ -3,6 +3,7 @@
 #define LIGNES 12
 #define COLONNES 26
 
+void demanderPlacementPion();
 
 void afficherMat (char mat[LIGNES][COLONNES])
 {
@@ -16,7 +17,6 @@ void afficherMat (char mat[LIGNES][COLONNES])
         printf("%c", (97 - 32 + i));
         for(int j=0;j<COLONNES;j++)
         {
-            mat[i][j]='1';
             printf(" %c",mat[i][j]);
         }
         printf("\n");
@@ -24,7 +24,26 @@ void afficherMat (char mat[LIGNES][COLONNES])
 }
 
 int main()
-{   char mat[LIGNES][COLONNES];
-    afficherMat (mat);
+{
+    char mat[LIGNES][COLONNES] = {{' '}};
+    afficherMat(mat);
+    demanderPlacementPion();
     return 0;
 }
+
+void demanderPlacementPion() {
+    printf("\nQue voulez vous jouer ?\n");
+    char x, y;
+
+    do {
+        fflush(stdin);
+        x = getc(stdin);
+    } while (!(x >= 'a' && x <= 'z'));
+
+    do {
+        fflush(stdin);
+        y = getc(stdin);
+    } while (!(y >= 'A' && y <= 'L'));
+}
+
+
