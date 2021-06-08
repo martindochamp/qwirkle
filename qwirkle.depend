@@ -3,7 +3,8 @@
 	<stdio.h>
 	<stdlib.h>
 
-1623183617 source:c:\users\marti\desktop\qwirkle\main.c
+1623185299 source:c:\users\marti\desktop\qwirkle\main.c
 	<stdio.h>
 	<stdlib.h>
+	<stdbool.h>
 
