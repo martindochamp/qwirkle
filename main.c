@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "interfaces.h"
+#include "tuiles.h"
+
 #define LIGNES 12
 #define COLONNES 26
 
@@ -30,6 +33,25 @@ void afficherMat(char mat[COLONNES][LIGNES])
 
 int main()
 {
+
+    int res;
+    do {
+        printf("Mode de fonctionnement du prgm : \n");
+        printf("1. Test menu\n");
+        printf("2. Lisa\n");
+        printf("3. Martin\n");
+        scanf("%d", &res);
+    } while(!(res > 0 && res < 4));
+    switch(res) {
+    case 1:
+        emmaPrgm();
+        return;
+    case 2:
+        prgmTuiles();
+        return;
+    case 3: break;
+    }
+
     char mat[COLONNES][LIGNES];
     int colorMat[COLONNES][LIGNES];
 

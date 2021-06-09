@@ -3,8 +3,20 @@
 	<stdio.h>
 	<stdlib.h>
 
-1623225302 source:c:\users\marti\desktop\qwirkle\main.c
+1623241502 source:c:\users\marti\desktop\qwirkle\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
+	"interfaces.h"
+	"tuiles.h"
+
+1623241268 source:c:\users\marti\desktop\qwirkle\interfaces.c
+	"interfaces.h"
+
+1623241221 c:\users\marti\desktop\qwirkle\interfaces.h
+
+1623241428 source:c:\users\marti\desktop\qwirkle\tuiles.c
+	"tuiles.h"
+
+1623241407 c:\users\marti\desktop\qwirkle\tuiles.h
 
