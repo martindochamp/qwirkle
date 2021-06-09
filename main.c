@@ -33,7 +33,6 @@ void afficherMat(char mat[COLONNES][LIGNES])
 
 int main()
 {
-
     int res;
     do {
         printf("Mode de fonctionnement du prgm : \n");
@@ -42,6 +41,7 @@ int main()
         printf("3. Martin\n");
         scanf("%d", &res);
     } while(!(res > 0 && res < 4));
+
     switch(res) {
     case 1:
         emmaPrgm();
@@ -51,6 +51,16 @@ int main()
         return;
     case 3: break;
     }
+
+    char pseudos[4][20];
+    int nbJoueur = 0;
+
+    do {
+        system("cls");
+        printf("Combien de joueur ? (2 à 4 personnes)\n");
+        fflush(stdin);
+        scanf("%d", &nbJoueur);
+    } while(!(nbJoueur >= 2 && nbJoueur <= 4));
 
     char mat[COLONNES][LIGNES];
     int colorMat[COLONNES][LIGNES];
