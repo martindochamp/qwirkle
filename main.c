@@ -7,6 +7,7 @@
 
 void demanderPlacementPion(int* coordsCoup);
 void jouerCoup(char map[COLONNES][LIGNES]);
+void initialiserMat(char mat[COLONNES][LIGNES]);
 
 void afficherMat(char mat[COLONNES][LIGNES])
 {
@@ -17,11 +18,10 @@ void afficherMat(char mat[COLONNES][LIGNES])
 
     for(int i = 0; i < LIGNES; i++)
     {
-        printf("%c", (97 - 32 + i));
+        printf("%c ", (97 - 32 + i));
         for(int j = 0; j < COLONNES; j++)
         {
-            printf(" ");
-            printf("%c", mat[j][i]);
+            printf("%c ", mat[j][i]);
         }
         printf("\n");
 
@@ -31,6 +31,7 @@ void afficherMat(char mat[COLONNES][LIGNES])
 int main()
 {
     char mat[COLONNES][LIGNES] = {{' '}};
+    initialiserMat(mat);
 
     bool jeuEnCours = true;
 
@@ -68,7 +69,13 @@ void jouerCoup(char map[COLONNES][LIGNES]) {
 
     printf("\nCoup en %c%c", coordsCoup[0], coordsCoup[1]);
     printf("\n x = %d y = %d", coordsCoup[0] - 97, coordsCoup[1] - 65);
-    Sleep(3000);
+    //Sleep(3000);
     map[coordsCoup[0] - 97][coordsCoup[1] - 65] = 'X';
+}
+
+void initialiserMat(char mat[COLONNES][LIGNES]) {
+    for (int i = 0; i < LIGNES; i++)
+        for (int j = 0; j < COLONNES; j++)
+            mat[j][i] = ' ';
 }
 
