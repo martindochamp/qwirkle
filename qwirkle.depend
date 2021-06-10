@@ -1,7 +1,10 @@
 # depslib dependency file v1.0
-1622997705 source:c:\users\lisaa\onedrive\bureau\qwirkle\main.c
+1623246732 source:c:\users\lisaa\onedrive\bureau\qwirkle\main.c
 	<stdio.h>
 	<stdlib.h>
+	<stdbool.h>
+	"interfaces.h"
+	"tuiles.h"
 
 1623241502 source:c:\users\marti\desktop\qwirkle\main.c
 	<stdio.h>
@@ -19,4 +22,9 @@
 	"tuiles.h"
 
 1623241407 c:\users\marti\desktop\qwirkle\tuiles.h
+
+1623241767 c:\users\lisaa\onedrive\bureau\qwirkle\interfaces.h
+
+1623246732 c:\users\lisaa\onedrive\bureau\qwirkle\tuiles.h
+	<windows.h>
 
