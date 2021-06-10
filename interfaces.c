@@ -1,4 +1,6 @@
 #include "interfaces.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void PartieNormale()
 {
