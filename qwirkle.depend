@@ -21,3 +21,25 @@
 	<stdio.h>
 	<stdlib.h>
 
+1623332394 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\interfaces.c
+	"interfaces.h"
+	<stdio.h>
+	<stdlib.h>
+
+1623332255 c:\users\emma\google drive\prepac\info\projet\qwirkle\interfaces.h
+
+1623332255 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"interfaces.h"
+	"tuiles.h"
+
+1623332255 c:\users\emma\google drive\prepac\info\projet\qwirkle\tuiles.h
+
+1623332255 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\tuiles.c
+	"tuiles.h"
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+
