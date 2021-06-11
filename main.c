@@ -104,7 +104,7 @@ void jouerCoup(char map[COLONNES][LIGNES]) {
     printf("\nCoup en %c%c", coordsCoup[0], coordsCoup[1]);
     printf("\n x = %d y = %d", coordsCoup[0] - 97, coordsCoup[1] - 65);
     //Sleep(3000);
-    map[coordsCoup[0] - 97][coordsCoup[1] - 65] = 'X';
+    map[coordsCoup[0] - 97][coordsCoup[1] - 65] = 0x03;
 }
 
 void initialiserMat(char m[COLONNES][LIGNES], int cM[COLONNES][LIGNES]) {
