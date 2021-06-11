@@ -9,25 +9,19 @@ void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de coul
     SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
 }
 
-void remplirStructure(t_tuile *tuile)
+void genererDeck(t_tuile* tuiles, int modeDeJeu)
 {
-    tuile->couleur = 4;
-    tuile->forme = 0x03;
-    // {0x03, 0x04, 0x05, 0x06, 0x07, 0xDB,};
-}
-
-void genererDeck(t_tuile* tuiles)
-{
+    int lim = (modeDeJeu == 1) ? 1 : 4;
     int index = 0;
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 6; j++) {
-            int couleurs[] = {14, 15, 4, 3, 2, 5};
-            char formes[] = {0x03, 0x04, 0x05, 0x06, 0x07, 0xDB};
-            tuiles[index].couleur = couleurs[i];
-            tuiles[index].forme = formes[j];
-            index++;
-        }
-    }
+    for (int i = 0; i < 6; i++)
+        for (int j = 0; j < 6; j++)
+            for (int k = 0; k < lim; k++) {
+                int couleurs[] = {14, 15, 4, 3, 2, 5};
+                char formes[] = {0x03, 0x04, 0x05, 0x0F, 0x06, 0xFE};
+                tuiles[index].couleur = couleurs[i];
+                tuiles[index].forme = formes[j];
+                index++;
+            }
 }
 
 void afficherDeck(t_tuile* tuiles)
@@ -36,18 +30,14 @@ void afficherDeck(t_tuile* tuiles)
         Color(tuiles[i].couleur, 0);
         printf("%c", tuiles[i].forme);
         Color(15, 0);
-
     }
 }
 
-
 void prgmTuiles() {
-    printf("Wow ça marche !");
+    system("cls");
+    printf("VOICI LES TUILES\n\n");
     t_tuile* tuiles = (t_tuile*) malloc(36*sizeof(t_tuile));
-    printf("cette tuile : \n%c", tuiles[1].forme);
-    genererDeck(tuiles);
+    genererDeck(tuiles, 1);
+    afficherDeck(tuiles);
 
-    //remplirStructure(&tuile);
-    //afficherStructure(&tuile);
 }
-

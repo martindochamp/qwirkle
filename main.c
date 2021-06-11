@@ -57,7 +57,7 @@ int main()
 
     do {
         system("cls");
-        printf("Combien de joueur ? (2 � 4 personnes)\n");
+        printf("Combien de joueur ? (2 à 4 personnes)\n");
         fflush(stdin);
         scanf("%d", &nbJoueur);
     } while(!(nbJoueur >= 2 && nbJoueur <= 4));
