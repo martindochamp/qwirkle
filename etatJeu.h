@@ -1,0 +1,6 @@
+#ifndef ETATJEU_H_INCLUDED
+#define ETATJEU_H_INCLUDED
+
+
+
+#endif // ETATJEU_H_INCLUDED
