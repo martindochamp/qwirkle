@@ -43,3 +43,25 @@
 	<stdio.h>
 	<stdlib.h>
 
+1623424636 source:c:\users\marti\desktop\qwirkle\interfaces.c
+	"interfaces.h"
+	<stdio.h>
+	<stdlib.h>
+
+1623424636 c:\users\marti\desktop\qwirkle\interfaces.h
+
+1623425018 source:c:\users\marti\desktop\qwirkle\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"interfaces.h"
+	"tuiles.h"
+
+1623424636 c:\users\marti\desktop\qwirkle\tuiles.h
+
+1623424636 source:c:\users\marti\desktop\qwirkle\tuiles.c
+	"tuiles.h"
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+

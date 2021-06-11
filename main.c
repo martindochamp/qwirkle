@@ -45,10 +45,10 @@ int main()
     switch(res) {
     case 1:
         emmaPrgm();
-        return;
+        return 0;
     case 2:
         prgmTuiles();
-        return;
+        return 0;
     case 3: break;
     }
 
@@ -57,7 +57,7 @@ int main()
 
     do {
         system("cls");
-        printf("Combien de joueur ? (2 à 4 personnes)\n");
+        printf("Combien de joueur ? (2 ï¿½ 4 personnes)\n");
         fflush(stdin);
         scanf("%d", &nbJoueur);
     } while(!(nbJoueur >= 2 && nbJoueur <= 4));
