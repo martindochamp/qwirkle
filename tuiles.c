@@ -3,15 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu)
+
 void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de couleurs
 {
     HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
 }
 
-void genererDeck(t_tuile* tuiles, int modeDeJeu)
+void genererPioche(t_tuile* tuiles, int modeDeJeu)
 {
-    int lim = (modeDeJeu == 1) ? 1 : 4;
+    int lim = (modeDeJeu == 1) ? 4 : 1;
     int index = 0;
     for (int i = 0; i < 6; i++)
         for (int j = 0; j < 6; j++)
@@ -22,6 +24,16 @@ void genererDeck(t_tuile* tuiles, int modeDeJeu)
                 tuiles[index].forme = formes[j];
                 index++;
             }
+}
+
+void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu) {
+    srand(time(NULL));
+    for (int i = 0; i < nbJoueurs; i++) {
+        for (int j = 0; j < 6; j++) {
+            int randomInt = rand() % (modeDeJeu == 1 ? 107 : 35);
+            while (pioche[randomInt])
+        }
+    }
 }
 
 void afficherDeck(t_tuile* tuiles)
@@ -35,9 +47,7 @@ void afficherDeck(t_tuile* tuiles)
 
 void prgmTuiles() {
     system("cls");
-    printf("VOICI LES TUILES\n\n");
     t_tuile* tuiles = (t_tuile*) malloc(36*sizeof(t_tuile));
-    genererDeck(tuiles, 1);
+    genererPioche(tuiles, 2);
     afficherDeck(tuiles);
-
 }

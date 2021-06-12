@@ -58,15 +58,15 @@
 	"tuiles.h"
 	"etatJeu.h"
 
-1623424636 c:\users\marti\desktop\qwirkle\tuiles.h
+1623522314 c:\users\marti\desktop\qwirkle\tuiles.h
 
-1623442443 source:c:\users\marti\desktop\qwirkle\tuiles.c
+1623523040 source:c:\users\marti\desktop\qwirkle\tuiles.c
 	"tuiles.h"
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
 
-1623490140 source:c:\users\marti\desktop\qwirkle\etatjeu.c
+1623520186 source:c:\users\marti\desktop\qwirkle\etatjeu.c
 	<stdio.h>
 	<stdlib.h>
 	"etatJeu.h"
