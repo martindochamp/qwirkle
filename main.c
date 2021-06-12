@@ -4,6 +4,7 @@
 
 #include "interfaces.h"
 #include "tuiles.h"
+#include "etatJeu.h"
 
 #define LIGNES 12
 #define COLONNES 26
@@ -49,18 +50,13 @@ int main()
     case 2:
         prgmTuiles();
         return 0;
-    case 3: break;
+    case 3:
+        preparationJeu();
+        return 0;
     }
 
     char pseudos[4][20];
-    int nbJoueur = 0;
 
-    do {
-        system("cls");
-        printf("Combien de joueur ? (2 à 4 personnes)\n");
-        fflush(stdin);
-        scanf("%d", &nbJoueur);
-    } while(!(nbJoueur >= 2 && nbJoueur <= 4));
 
     char mat[COLONNES][LIGNES];
     int colorMat[COLONNES][LIGNES];
