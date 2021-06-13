@@ -53,20 +53,22 @@ void ReglesJeu()
     printf("Ajouter des tuiles a une ligne (ou colonne)\n"); //Couleur orange
     printf("Chacun a leur tour, les joueurs ajoutent des tuiles a la ligne creee au premier tour sans deborder l espace de jeu. Tous les coups joues doivent etre lies a la ligne existante.");
 
+
 }
 
 void ModeJeu()
 {
     int ch2;
 
-    printf("Veuillez choisir votre mode de jeu\n");
-    printf("1. Mode normal\n");
-    printf("2. Mode degrade\n");
-
     do{
-        fflush(stdin);
-        scanf("%d", &ch2);
+        printf("Veuillez choisir votre mode de jeu\n");
+        printf("1. Mode normal\n");
+        printf("2. Mode degrade\n");
+
     } while((ch2<1)&&(ch2>2));
+
+    fflush(stdin);
+    scanf("%d", &ch2);
 
     switch(ch2){
         case 1:
@@ -82,19 +84,20 @@ void afficherMenu()
 {
     int ch1;
 
-    printf("Bonjour et bienvenue dans le Qwirkle!\n");
-    printf("1. Consulter les regles du jeu\n");
-    printf("2. Demarrer une nouvelle partie\n");
-    printf("3. Reprendre une partie sauvegardee\n");
-    printf("4. Consulter l'ensemble des scores des joueurs\n");
-
     do{
+        printf("Bonjour et bienvenue dans le Qwirkle!\n");
+        printf("1. Consulter les regles du jeu\n");
+        printf("2. Demarrer une nouvelle partie\n");
+        printf("3. Reprendre une partie sauvegardee\n");
+        printf("4. Consulter l'ensemble des scores des joueurs\n");
         fflush(stdin);
         scanf("%d", &ch1);
     } while((ch1<1)&&(ch1>4));
 
     switch(ch1){
         case 1:
+            printf("Pour retourner au menu principal, tapez Q");
+
             ReglesJeu();
             break;
         case 2:
@@ -104,6 +107,8 @@ void afficherMenu()
             break;
         case 4:
             break;
+        default:
+            printf("Choix errone! Veuillez reessayer");
     }
 }
 

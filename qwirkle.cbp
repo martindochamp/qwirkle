@@ -31,10 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+<<<<<<< HEAD
+=======
 		<Unit filename="etatJeu.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="etatJeu.h" />
+>>>>>>> 4b776409c69f70344cc336d63b8cce13fe721d2a
 		<Unit filename="interfaces.c">
 			<Option compilerVar="CC" />
 		</Unit>
