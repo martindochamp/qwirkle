@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "etatJeu.h"
 #include "tuiles.h"
-#include "plateau.h"
 
 int demanderModeDeJeu();
 int demanderNombreJoueur();
@@ -35,37 +33,12 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
     for (int i = 0; i < nbJoueurs; i++)
         *(mains+i) = (t_tuile*) malloc(6*sizeof(t_tuile));
 
+
     distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu);
+    printf(":ok_hand:");
+    afficherMainsJoueurs(mains, pseudos, nbJoueurs);
 
-    bool victoire = false;
-    int tour = 0;
-
-    t_tuile** plateau = (t_tuile**) malloc(LIGNES*sizeof(t_tuile*));
-    for (int i = 0; i < COLONNES; i++)
-        *(plateau+i) = (t_tuile*) malloc(COLONNES*sizeof(t_tuile));
-
-    afficherPlateau(plateau);
-
-    /*while (!victoire) {
-
-        Chaque joueur joue chacun son tour,
-        on affiche sur le côté son score, pseudo et pioche.
-        On demande son placement et on vérifie si il est possible,
-        Calcul des points et on lui donne nouvelle tuile,
-
-        Si on ne peut plus jouer, alors on finit en montrant les scores
-
-
-        tour++;
-    }*/
-
-    //afficherMainsJoueurs(mains, pseudos, nbJoueurs);
-
-    //afficherMap();
-    free(plateau);
-    free(mains);
-    free(pioche);
-    free(pseudos);
+//    afficherMap();
 }
 
 int demanderModeDeJeu() {

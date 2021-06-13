@@ -7,8 +7,6 @@ typedef struct Tuiles
     char forme;
 } t_tuile;
 
-void Color(int couleurDuTexte,int couleurDeFond);
-
 void afficherStructure(t_tuile* tuile);
 
 void remplirStructure(t_tuile *tuile);
