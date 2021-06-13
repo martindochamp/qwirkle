@@ -14,7 +14,7 @@ void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de coul
 
 void genererPioche(t_tuile* tuiles, int modeDeJeu)
 {
-    int lim = (modeDeJeu == 1) ? 4 : 1;
+    int lim = (modeDeJeu == 1) ? 3 : 1;
     int index = 0;
     for (int i = 0; i < 6; i++)
         for (int j = 0; j < 6; j++)

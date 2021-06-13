@@ -4,6 +4,7 @@
 
 #include "etatJeu.h"
 #include "tuiles.h"
+#include "plateau.h"
 
 int demanderModeDeJeu();
 int demanderNombreJoueur();
@@ -35,10 +36,13 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
 
     distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu);
-    printf(":ok_hand:");
-    afficherMainsJoueurs(mains, pseudos, nbJoueurs);
+    //afficherMainsJoueurs(mains, pseudos, nbJoueurs);
+    t_tuile** plateau = (t_tuile**) malloc(LIGNES*sizeof(t_tuile*));
+    for (int i = 0; i < LIGNES; i++)
+        *(plateau+i) = (t_tuile*) malloc(COLONNES*sizeof(t_tuile));
 
-//    afficherMap();
+
+    afficherPlateau(plateau);
 }
 
 int demanderModeDeJeu() {

@@ -43,35 +43,46 @@
 	<stdio.h>
 	<stdlib.h>
 
-1623575445 source:c:\users\marti\desktop\qwirkle\interfaces.c
+1623597520 source:c:\users\marti\desktop\qwirkle\interfaces.c
 	"interfaces.h"
 	<stdio.h>
 	<stdlib.h>
 
 1623575445 c:\users\marti\desktop\qwirkle\interfaces.h
 
-1623575445 source:c:\users\marti\desktop\qwirkle\main.c
+1623600710 source:c:\users\marti\desktop\qwirkle\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"interfaces.h"
 	"tuiles.h"
 	"etatJeu.h"
+	"plateau.h"
 
-1623576378 c:\users\marti\desktop\qwirkle\tuiles.h
+1623597479 c:\users\marti\desktop\qwirkle\tuiles.h
 
-1623576366 source:c:\users\marti\desktop\qwirkle\tuiles.c
+1623599861 source:c:\users\marti\desktop\qwirkle\tuiles.c
 	"tuiles.h"
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 
-1623576002 source:c:\users\marti\desktop\qwirkle\etatjeu.c
+1623601073 source:c:\users\marti\desktop\qwirkle\etatjeu.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 	"etatJeu.h"
 	"tuiles.h"
+	"plateau.h"
 
 1623575445 c:\users\marti\desktop\qwirkle\etatjeu.h
+
+1623600685 c:\users\marti\desktop\qwirkle\plateau.h
+
+1623600672 source:c:\users\marti\desktop\qwirkle\plateau.c
+	<stdlib.h>
+	<stdio.h>
+	"tuiles.h"
+	"plateau.h"
 
