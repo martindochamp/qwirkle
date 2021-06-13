@@ -4,32 +4,13 @@
 
 #include "interfaces.h"
 #include "tuiles.h"
+#include "etatJeu.h"
 
 #define LIGNES 12
 #define COLONNES 26
 
 void demanderPlacementPion(int* coordsCoup);
 void jouerCoup(char map[COLONNES][LIGNES]);
-void initialiserMat(char m[COLONNES][LIGNES], int cM[COLONNES][LIGNES]);
-
-void afficherMat(char mat[COLONNES][LIGNES])
-{
-    printf(" ");
-    for (int i = 0; i < COLONNES; i++)
-        printf(" %c", 97+i);
-    printf("\n");
-
-    for(int i = 0; i < LIGNES; i++)
-    {
-        printf("%c ", (97 - 32 + i));
-        for(int j = 0; j < COLONNES; j++)
-        {
-            printf("%c ", mat[j][i]);
-        }
-        printf("\n");
-
-    }
-}
 
 int main()
 {
@@ -45,34 +26,13 @@ int main()
     switch(res) {
     case 1:
         emmaPrgm();
-        return;
+        return 0;
     case 2:
         prgmTuiles();
-        return;
-    case 3: break;
-    }
-
-    char pseudos[4][20];
-    int nbJoueur = 0;
-
-    do {
-        system("cls");
-        printf("Combien de joueur ? (2 à 4 personnes)\n");
-        fflush(stdin);
-        scanf("%d", &nbJoueur);
-    } while(!(nbJoueur >= 2 && nbJoueur <= 4));
-
-    char mat[COLONNES][LIGNES];
-    int colorMat[COLONNES][LIGNES];
-
-    initialiserMat(mat, colorMat);
-
-    bool jeuEnCours = true;
-
-    while (jeuEnCours) {
-        afficherMat(mat);
-        jouerCoup(mat);
-        system("cls");
+        return 0;
+    case 3:
+        preparationJeu();
+        return 0;
     }
 
     return 0;
@@ -104,7 +64,7 @@ void jouerCoup(char map[COLONNES][LIGNES]) {
     printf("\nCoup en %c%c", coordsCoup[0], coordsCoup[1]);
     printf("\n x = %d y = %d", coordsCoup[0] - 97, coordsCoup[1] - 65);
     //Sleep(3000);
-    map[coordsCoup[0] - 97][coordsCoup[1] - 65] = 'X';
+    map[coordsCoup[0] - 97][coordsCoup[1] - 65] = 0x03;
 }
 
 void initialiserMat(char m[COLONNES][LIGNES], int cM[COLONNES][LIGNES]) {

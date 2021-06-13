@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1623329853 source:c:\users\lisaa\onedrive\bureau\qwirkle\main.c
+1623332051 source:c:\users\lisaa\onedrive\bureau\qwirkle\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -10,7 +10,7 @@
 
 1623329840 c:\users\lisaa\onedrive\bureau\qwirkle\tuiles.h
 
-1623329746 source:c:\users\lisaa\onedrive\bureau\qwirkle\tuiles.c
+1623332832 source:c:\users\lisaa\onedrive\bureau\qwirkle\tuiles.c
 	"tuiles.h"
 	<windows.h>
 	<stdio.h>
@@ -42,4 +42,47 @@
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
+
+1623575445 source:c:\users\marti\desktop\qwirkle\interfaces.c
+	"interfaces.h"
+	<stdio.h>
+	<stdlib.h>
+
+1623575445 c:\users\marti\desktop\qwirkle\interfaces.h
+
+1623586514 source:c:\users\marti\desktop\qwirkle\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"interfaces.h"
+	"tuiles.h"
+	"etatJeu.h"
+
+1623586421 c:\users\marti\desktop\qwirkle\tuiles.h
+
+1623577699 source:c:\users\marti\desktop\qwirkle\tuiles.c
+	"tuiles.h"
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1623586755 source:c:\users\marti\desktop\qwirkle\etatjeu.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	"etatJeu.h"
+	"tuiles.h"
+	"plateau.h"
+
+1623575445 c:\users\marti\desktop\qwirkle\etatjeu.h
+
+1623586335 c:\users\marti\desktop\qwirkle\plateau.h
+
+1623586472 source:c:\users\marti\desktop\qwirkle\plateau.c
+	<stdlib.h>
+	<stdio.h>
+	"tuiles.h"
+	"plateau.h"
 

@@ -7,10 +7,18 @@ typedef struct Tuiles
     char forme;
 } t_tuile;
 
+void Color(int couleurDuTexte,int couleurDeFond);
+
 void afficherStructure(t_tuile* tuile);
 
 void remplirStructure(t_tuile *tuile);
 
 void prgmTuiles();
+
+void genererPioche(t_tuile* tuiles, int modeDeJeu);
+
+void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeDeJeu);
+
+void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs);
 
 #endif // TUILES_H_INCLUDED
