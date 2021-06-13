@@ -74,7 +74,8 @@ int main()
     return 0;
 }
 
-void demanderPlacementPion(int* coordsCoup) {
+void demanderPlacementPion(int* coordsCoup)
+{
     printf("\nQue voulez vous jouer ?\n");
     char x, y;
 
