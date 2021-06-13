@@ -2,8 +2,9 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu)
+void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu);
 
 void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de couleurs
 {
@@ -26,14 +27,34 @@ void genererPioche(t_tuile* tuiles, int modeDeJeu)
             }
 }
 
-void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu) {
+void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeDeJeu) {
     srand(time(NULL));
     for (int i = 0; i < nbJoueurs; i++) {
         for (int j = 0; j < 6; j++) {
-            int randomInt = rand() % (modeDeJeu == 1 ? 107 : 35);
-            while (pioche[randomInt])
+            int randomInt;
+            do {
+                randomInt = rand() % (modeDeJeu == 1 ? 107 : 35);
+            } while (pioche[randomInt].forme == ' ');
+            mains[i][j] = pioche[randomInt];
+            pioche[randomInt].couleur = 0;
+            pioche[randomInt].forme = ' ';
         }
     }
+}
+
+void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs) {
+    system("cls");
+    printf("Mains des joueurs :\n\n");
+    for (int i = 0; i < nbJoueurs; i++) {
+        printf("- Main de %s\n", pseudos[i]);
+        for (int j = 0; j < 6; j++) {
+            Color(mains[i][j].couleur, 0);
+            printf("%c", mains[i][j].forme);
+            Color(15, 0);
+        }
+        printf("\n");
+    }
+
 }
 
 void afficherDeck(t_tuile* tuiles)
