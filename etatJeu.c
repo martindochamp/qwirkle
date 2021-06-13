@@ -31,7 +31,7 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
     //Distribution des cartes
     for (int i = 0; i < nbJoueurs; i++)
-        *mains = (t_tuile*) malloc(6*sizeof(t_tuile));
+        *(mains+i) = (t_tuile*) malloc(6*sizeof(t_tuile));
 
 
     distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu);
