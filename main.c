@@ -55,9 +55,6 @@ int main()
         return 0;
     }
 
-    char pseudos[4][20];
-
-
     char mat[COLONNES][LIGNES];
     int colorMat[COLONNES][LIGNES];
 

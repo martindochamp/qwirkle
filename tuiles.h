@@ -15,6 +15,8 @@ void prgmTuiles();
 
 void genererPioche(t_tuile* tuiles, int modeDeJeu);
 
-void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu)
+void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeDeJeu);
+
+void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs);
 
 #endif // TUILES_H_INCLUDED

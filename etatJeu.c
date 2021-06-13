@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "etatJeu.h"
 #include "tuiles.h"
@@ -13,8 +14,9 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu);
 void preparationJeu() {
     int modeDeJeu = demanderModeDeJeu();
     int nbJoueurs = demanderNombreJoueur();
-    printf("Mode de jeu : %d\nNombre de joueurs : %d", modeDeJeu, nbJoueurs);
+
     char** pseudos = (char**) malloc(nbJoueurs*sizeof(char*));
+
     demanderPseudos(nbJoueurs, pseudos);
     lancementJeu(nbJoueurs, pseudos, modeDeJeu);
 }
@@ -23,16 +25,18 @@ void preparationJeu() {
 void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
     //On génére le deck en fonction du mode de jeu
-    t_tuile* pioche = (t_tuile*) calloc((modeDeJeu == 1 ? 108 : 36), sizeof(t_tuile));
+    t_tuile* pioche = (t_tuile*) malloc((modeDeJeu == 1 ? 108 : 36)*sizeof(t_tuile));
     genererPioche(pioche, modeDeJeu);
-    t_tuile** mains = (t_tuile**) calloc(nbJoueurs, sizeof(t_tuile*));
+    t_tuile** mains = (t_tuile**) malloc(nbJoueurs*sizeof(t_tuile*));
 
     //Distribution des cartes
     for (int i = 0; i < nbJoueurs; i++)
-        *mains = (t_tuile*) calloc(6, sizeof(t_tuile));
+        *mains = (t_tuile*) malloc(6*sizeof(t_tuile));
 
 
-//    distribuerTuiles();
+    distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu);
+    printf(":ok_hand:");
+    afficherMainsJoueurs(mains, pseudos, nbJoueurs);
 
 //    afficherMap();
 }
@@ -42,8 +46,8 @@ int demanderModeDeJeu() {
     do {
         system("cls");
         printf("Mode de jeu :\n");
-        printf("- Mode normal\n\n");
-        printf("- Mode degrade\n");
+        printf("- Mode normal\n");
+        printf("- Mode degrade\n\n");
         fflush(stdin);
         scanf("%d", &modeDeJeu);
     } while (!(modeDeJeu == 1 || modeDeJeu == 2));
