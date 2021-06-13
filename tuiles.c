@@ -46,7 +46,7 @@ void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs) {
     system("cls");
     printf("Mains des joueurs :\n\n");
     for (int i = 0; i < nbJoueurs; i++) {
-        printf("- Main de %s\n", pseudos[i]);
+        printf("- Main de %s\n\t", pseudos[i]);
         for (int j = 0; j < 6; j++) {
             Color(mains[i][j].couleur, 0);
             printf("%c", mains[i][j].forme);
