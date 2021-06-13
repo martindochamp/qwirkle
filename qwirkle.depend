@@ -21,27 +21,30 @@
 	<stdio.h>
 	<stdlib.h>
 
-1623586829 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\interfaces.c
+1623606184 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\interfaces.c
 	"interfaces.h"
 	<stdio.h>
 	<stdlib.h>
+	<windows.h>
 
 1623332255 c:\users\emma\google drive\prepac\info\projet\qwirkle\interfaces.h
 
-1623332255 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\main.c
+1623598031 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"interfaces.h"
 	"tuiles.h"
+	"etatJeu.h"
 
-1623332255 c:\users\emma\google drive\prepac\info\projet\qwirkle\tuiles.h
+1623598031 c:\users\emma\google drive\prepac\info\projet\qwirkle\tuiles.h
 
-1623332255 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\tuiles.c
+1623598031 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\tuiles.c
 	"tuiles.h"
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
+	<time.h>
 
 1623575445 source:c:\users\marti\desktop\qwirkle\interfaces.c
 	"interfaces.h"
@@ -74,4 +77,13 @@
 	"tuiles.h"
 
 1623575445 c:\users\marti\desktop\qwirkle\etatjeu.h
+
+1623587470 c:\users\emma\google drive\prepac\info\projet\qwirkle\etatjeu.h
+
+1623598031 source:c:\users\emma\google drive\prepac\info\projet\qwirkle\etatjeu.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"etatJeu.h"
+	"tuiles.h"
 
