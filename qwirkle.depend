@@ -72,7 +72,7 @@
 	<stdlib.h>
 	<time.h>
 
-1623655626 source:c:\users\marti\desktop\qwirkle\etatjeu.c
+1623659289 source:c:\users\marti\desktop\qwirkle\etatjeu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -97,9 +97,9 @@
 
 1623598031 
 
-1623654469 c:\users\marti\desktop\qwirkle\plateau.h
+1623659599 c:\users\marti\desktop\qwirkle\plateau.h
 
-1623658639 source:c:\users\marti\desktop\qwirkle\plateau.c
+1623659938 source:c:\users\marti\desktop\qwirkle\plateau.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>

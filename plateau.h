@@ -13,5 +13,6 @@ void afficherMain(t_tuile** mains, char** pseudos, int joueur);
 
 void positionnerCurseur(int x, int y);
 
+void recupererPlacement(int* tuile, int* coordsX, int* coordsY);
 
 #endif // PLATEAU_H_INCLUDED

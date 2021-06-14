@@ -5,6 +5,36 @@
 #include "tuiles.h"
 #include "plateau.h"
 
+void recupererPlacement(int* tuile, int* coordsX, int* coordsY) {
+    int tuileTemp = -1;
+
+    positionnerCurseur(70, 8);
+    Color(14, 0);
+    printf("Quelle tuile voulez-vous jouer ?");
+    Color(15, 0);
+    positionnerCurseur(70, 9);
+
+    do {
+        while(!kbhit());
+        tuileTemp = getch();
+        printf("%d ", tuileTemp);
+    } while (!(tuileTemp >= 49 && tuileTemp <= 55));
+    printf("Bonne tuile!");
+
+    positionnerCurseur(70, 11);
+    Color(14, 0);
+    printf("Quelle colonne ?");
+    Color(15, 0);
+    positionnerCurseur(70, 12);
+
+    do {
+        while(!kbhit());
+        tuileTemp = getch();
+    } while (!(tuileTemp >= 49 && tuileTemp <= 55));
+    printf("Bonne tuile!");
+
+}
+
 void initialiserPlateau(t_tuile** plateau) {
     for (int i = 0; i < LIGNES; i++)
         for (int j = 0; j < COLONNES; j++) {
@@ -104,10 +134,8 @@ void afficherPlateau(t_tuile** plateau) {
     afficherTitre();
 }
 
-void positionnerCurseur(int x, int y)
-{
+void positionnerCurseur(int x, int y){
     COORD coords;
-
     coords.X = x;
     coords.Y = y;
     SetConsoleCursorPosition(GetStdHandle( STD_OUTPUT_HANDLE ), coords);

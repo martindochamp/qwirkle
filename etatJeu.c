@@ -52,14 +52,20 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
     while (!finJeu) {
         /**
         Afficher main joueur et pseudo,
-        Demander carte et placement
+        Demander tuile et placement
         Vérification placement tuile
         Calcul des points,
-        Nouvelle pioche d'une carte,
-        Détection fin jeu (Plus du carte, coup impossible)
+        Nouvelle pioche d'une tuile,
+        Détection fin jeu (Plus du tuile, coup impossible)
         Joueur suivant
         **/
         afficherMain(mains, pseudos, (tour % nbJoueurs));
+
+        int tuile = 0;
+        int coordsX = 0;
+        int coordsY = 0;
+
+        recupererPlacement(&tuile, &coordsX, &coordsY);
         while(!kbhit());
         char c = ' ';
         scanf("%c", &c);
