@@ -7,6 +7,8 @@
 
 void recupererPlacement(int* tuile, int* coordsX, int* coordsY) {
     int tuileTemp = -1;
+    int x = -1;
+    int y = -1;
 
     positionnerCurseur(70, 8);
     Color(14, 0);
@@ -17,7 +19,6 @@ void recupererPlacement(int* tuile, int* coordsX, int* coordsY) {
     do {
         while(!kbhit());
         tuileTemp = getch();
-        printf("%d ", tuileTemp);
     } while (!(tuileTemp >= 49 && tuileTemp <= 55));
     printf("Bonne tuile!");
 
@@ -29,9 +30,21 @@ void recupererPlacement(int* tuile, int* coordsX, int* coordsY) {
 
     do {
         while(!kbhit());
-        tuileTemp = getch();
-    } while (!(tuileTemp >= 49 && tuileTemp <= 55));
-    printf("Bonne tuile!");
+        x = getch();
+    } while (!(x >= 'a' && x <= 'z'));
+    printf(" - %c ", x);
+
+    positionnerCurseur(70, 14);
+    Color(14, 0);
+    printf("Quelle ligne ?");
+    Color(15, 0);
+    positionnerCurseur(70, 15);
+
+    do {
+        while(!kbhit());
+        y = getch();
+    } while (!(y >= 'A' && y <= 'L'));
+    printf(" - %c ", y);
 
 }
 
