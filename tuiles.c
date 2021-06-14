@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu);
 
@@ -71,4 +72,55 @@ void prgmTuiles() {
     t_tuile* tuiles = (t_tuile*) malloc(36*sizeof(t_tuile));
     genererPioche(tuiles, 2);
     afficherDeck(tuiles);
+}
+
+char* retournerNomTuile(t_tuile tuile)
+{
+    char chaine1[20];
+    char chaine2[20];
+    switch(tuile.couleur)
+    {
+        case 2 :
+            strcpy(chaine2, "vert");
+            break;
+        case 3 :
+            strcpy(chaine2, "rouge");
+            break;
+        case 4 :
+            strcpy(chaine2, "bleu");
+            break;
+        case 5 :
+            strcpy(chaine2, "violet");
+            break;
+        case 14 :
+            strcpy(chaine2, "jaune");
+            break;
+        case 15 :
+            strcpy(chaine2, "blanc");
+            break;
+    }
+     switch(tuile.forme)
+    {
+        case 0x03 :
+            strcpy(chaine1, "Coeur ");
+            break;
+        case 0x04 :
+            strcpy(chaine1, "Losange ");
+            break;
+        case 0x05 :
+            strcpy(chaine1, "Trefle ");
+            break;
+        case 0x0F :
+              strcpy(chaine1, "Soleil ");
+            break;
+        case 0x06 :
+            strcpy(chaine1, "Pique ");
+            break;
+        case 0xFE :
+            strcpy(chaine1, "Carreaux ");
+            break;
+    }
+    strcat(chaine1,chaine2);
+
+    return chaine1;
 }
