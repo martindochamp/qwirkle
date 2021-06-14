@@ -63,7 +63,7 @@
 	"etatJeu.h"
 	"plateau.h"
 
-1623597479 c:\users\marti\desktop\qwirkle\tuiles.h
+1623654254 c:\users\marti\desktop\qwirkle\tuiles.h
 
 1623599861 source:c:\users\marti\desktop\qwirkle\tuiles.c
 	"tuiles.h"
@@ -96,9 +96,9 @@
 
 1623598031 
 
-1623652840 c:\users\marti\desktop\qwirkle\plateau.h
+1623654080 c:\users\marti\desktop\qwirkle\plateau.h
 
-1623652496 source:c:\users\marti\desktop\qwirkle\plateau.c
+1623654232 source:c:\users\marti\desktop\qwirkle\plateau.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>

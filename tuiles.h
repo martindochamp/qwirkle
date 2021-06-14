@@ -19,6 +19,6 @@ void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeD
 
 void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs);
 
-Color(int couleurDuTexte,int couleurDeFond);
+void Color(int couleurDuTexte,int couleurDeFond);
 
 #endif // TUILES_H_INCLUDED

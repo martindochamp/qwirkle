@@ -20,7 +20,14 @@ void afficherMain(t_tuile** mains, int joueur) {
 
 void afficherTitre() {
     positionnerCurseur(MARGEX, 1);
-    printf("%c QWIRKLE %c", 0x05, 0x05);
+    Color(12, 0);
+    printf("%c ", 0x05);
+    Color(11, 0);
+    printf("QWIRKLE ");
+    Color(12, 0);
+    printf("%c ", 0x05);
+    Color(15, 0);
+    //printf("%c QWIRKLE %c", , 0x05);
 }
 
 void afficherBordure() {
