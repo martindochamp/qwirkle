@@ -13,4 +13,5 @@ void afficherMain(t_tuile** mains, int joueur);
 
 void positionnerCurseur(int x, int y);
 
+
 #endif // PLATEAU_H_INCLUDED

@@ -18,6 +18,11 @@ void afficherMain(t_tuile** mains, int joueur) {
     printf("Test");
 }
 
+void afficherTitre() {
+    positionnerCurseur(MARGEX, 1);
+    printf("%c QWIRKLE %c", 0x05, 0x05);
+}
+
 void afficherBordure() {
     for (int i = 0; i < 55; i++) {
         //Bordure en X
@@ -46,8 +51,6 @@ void afficherBordure() {
     printf("%c", 0xC8);
     positionnerCurseur(MARGEX+54, MARGEY+13);
     printf("%c", 0xBC);
-
-
 }
 
 void afficherPlateau(t_tuile** plateau) {
@@ -72,6 +75,7 @@ void afficherPlateau(t_tuile** plateau) {
         }
     }
     afficherBordure();
+    afficherTitre();
 }
 
 void positionnerCurseur(int x, int y)
