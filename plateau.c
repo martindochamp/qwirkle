@@ -5,10 +5,23 @@
 #include "tuiles.h"
 #include "plateau.h"
 
+void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
+
+    //plateau[x][y]
+
+}
+
 void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     int tuileTemp = -1;
     int x = -1;
     int y = -1;
+
+    //On supprime la barre de côté
+    for (int i = 0; i < 40; i++)
+        for (int j = 0; j < 8; j++) {
+            positionnerCurseur(70+i, 8+j);
+            printf(" ");
+        }
 
     positionnerCurseur(70, 8);
     Color(14, 0);
@@ -49,6 +62,9 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     } while (!(y >= 'A' && y <= 'L'));
     printf(" - %c ", y);
 
+    *tuile = tuileTemp;
+    *coordsX = x;
+    *coordsY = y;
 }
 
 void initialiserPlateau(t_tuile** plateau) {

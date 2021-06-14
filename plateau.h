@@ -15,4 +15,6 @@ void positionnerCurseur(int x, int y);
 
 void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY);
 
+void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y);
+
 #endif // PLATEAU_H_INCLUDED
