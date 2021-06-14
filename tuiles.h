@@ -21,4 +21,6 @@ void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs);
 
 void Color(int couleurDuTexte,int couleurDeFond);
 
+char* retournerNomTuile(t_tuile tuile);
+
 #endif // TUILES_H_INCLUDED
