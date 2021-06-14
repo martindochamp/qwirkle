@@ -5,7 +5,7 @@
 #include "tuiles.h"
 #include "plateau.h"
 
-void recupererPlacement(int* tuile, int* coordsX, int* coordsY) {
+void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     int tuileTemp = -1;
     int x = -1;
     int y = -1;
@@ -20,7 +20,10 @@ void recupererPlacement(int* tuile, int* coordsX, int* coordsY) {
         while(!kbhit());
         tuileTemp = getch();
     } while (!(tuileTemp >= 49 && tuileTemp <= 55));
-    printf("Bonne tuile!");
+
+    char strtest[30];
+    retournerNomTuile(main[tuileTemp-49], strtest);
+    printf("%s", strtest);
 
     positionnerCurseur(70, 11);
     Color(14, 0);

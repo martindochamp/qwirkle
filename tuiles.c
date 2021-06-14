@@ -74,7 +74,7 @@ void prgmTuiles() {
     afficherDeck(tuiles);
 }
 
-char* retournerNomTuile(t_tuile tuile)
+void retournerNomTuile(t_tuile tuile, char* nomTuile)
 {
     char chaine1[20];
     char chaine2[20];
@@ -121,6 +121,5 @@ char* retournerNomTuile(t_tuile tuile)
             break;
     }
     strcat(chaine1,chaine2);
-
-    return chaine1;
+    strcpy(nomTuile, chaine1);
 }

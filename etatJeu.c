@@ -65,7 +65,7 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
         int coordsX = 0;
         int coordsY = 0;
 
-        recupererPlacement(&tuile, &coordsX, &coordsY);
+        recupererPlacement(mains[(tour % nbJoueurs)],&tuile, &coordsX, &coordsY);
         while(!kbhit());
         char c = ' ';
         scanf("%c", &c);
