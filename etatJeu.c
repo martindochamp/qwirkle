@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <windows.h>
 
 #include "etatJeu.h"
 #include "tuiles.h"
@@ -58,8 +59,11 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
         Détection fin jeu (Plus du carte, coup impossible)
         Joueur suivant
         **/
-        afficherMain(mains, 3);
+        afficherMain(mains, pseudos, (tour % nbJoueurs));
         while(!kbhit());
+        char c = ' ';
+        scanf("%c", &c);
+        fflush(stdin);
         tour++;
     }
 }

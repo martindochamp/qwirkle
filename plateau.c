@@ -13,9 +13,29 @@ void initialiserPlateau(t_tuile** plateau) {
         }
 }
 
-void afficherMain(t_tuile** mains, int joueur) {
+void afficherMain(t_tuile** mains, char** pseudos, int joueur) {
+
+    //Supprime l'ancienne phrase
+    for (int i = 0; i < 50; i++) {
+        positionnerCurseur(MARGEX+i, 2);
+        printf(" ");
+    }
+
+    positionnerCurseur(MARGEX, 2);
+    Color(11, 0);
+    printf("%s ", *(pseudos+joueur));
+    Color(15, 0);
+    printf("%c vous de jouer !", 0x85);
+
     positionnerCurseur(70, 5);
-    printf("Test");
+    printf("Votre main :");
+    positionnerCurseur(70, 6);
+
+    //Affichage tuiles joueurs
+    for (int i = 0; i < 6; i++) {
+        Color(mains[joueur][i].couleur, 0);
+        printf("%c ", mains[joueur][i].forme);
+    }
 }
 
 void afficherTitre() {
@@ -27,7 +47,6 @@ void afficherTitre() {
     Color(12, 0);
     printf("%c ", 0x05);
     Color(15, 0);
-    //printf("%c QWIRKLE %c", , 0x05);
 }
 
 void afficherBordure() {

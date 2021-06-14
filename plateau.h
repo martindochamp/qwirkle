@@ -9,7 +9,7 @@
 
 void afficherPlateau(t_tuile** plateau);
 
-void afficherMain(t_tuile** mains, int joueur);
+void afficherMain(t_tuile** mains, char** pseudos, int joueur);
 
 void positionnerCurseur(int x, int y);
 

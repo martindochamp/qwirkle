@@ -72,11 +72,12 @@
 	<stdlib.h>
 	<time.h>
 
-1623652543 source:c:\users\marti\desktop\qwirkle\etatjeu.c
+1623655626 source:c:\users\marti\desktop\qwirkle\etatjeu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<stdbool.h>
+	<windows.h>
 	"etatJeu.h"
 	"tuiles.h"
 	"plateau.h"
@@ -96,9 +97,9 @@
 
 1623598031 
 
-1623654080 c:\users\marti\desktop\qwirkle\plateau.h
+1623654469 c:\users\marti\desktop\qwirkle\plateau.h
 
-1623654232 source:c:\users\marti\desktop\qwirkle\plateau.c
+1623658639 source:c:\users\marti\desktop\qwirkle\plateau.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
