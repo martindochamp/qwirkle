@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "etatJeu.h"
 #include "tuiles.h"
@@ -43,6 +44,24 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
 
     afficherPlateau(plateau);
+
+    bool finJeu = false;
+    int tour = 0;
+
+    while (!finJeu) {
+        /**
+        Afficher main joueur et pseudo,
+        Demander carte et placement
+        Vérification placement tuile
+        Calcul des points,
+        Nouvelle pioche d'une carte,
+        Détection fin jeu (Plus du carte, coup impossible)
+        Joueur suivant
+        **/
+        afficherMain(mains, 3);
+        while(!kbhit());
+        tour++;
+    }
 }
 
 int demanderModeDeJeu() {

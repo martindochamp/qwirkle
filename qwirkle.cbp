@@ -42,6 +42,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="plateau.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="plateau.h" />
 		<Unit filename="tuiles.c">
 			<Option compilerVar="CC" />
 		</Unit>
