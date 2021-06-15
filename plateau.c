@@ -7,7 +7,13 @@
 
 void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
 
-    //plateau[x][y]
+    plateau[x][y].couleur = main[tuile].couleur;
+    plateau[x][y].forme = main[tuile].forme;
+
+    positionnerCurseur((x+1)*2 + MARGEX, y+1 + MARGEY);
+    Color(plateau[x][y].couleur, 0);
+    printf("%c", plateau[x][y].forme);
+    Color(15, 0);
 
 }
 
@@ -62,7 +68,7 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     } while (!(y >= 'A' && y <= 'L'));
     printf(" - %c ", y);
 
-    *tuile = tuileTemp;
+    *tuile = tuileTemp-49;
     *coordsX = x;
     *coordsY = y;
 }

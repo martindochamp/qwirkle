@@ -67,7 +67,7 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
         recupererPlacement(mains[(tour % nbJoueurs)],&tuile, &coordsX, &coordsY);
 
-        jouerPlacement(plateau, mains[(tour % nbJoueurs)], tuile, coordsX, coordsY);
+        jouerPlacement(plateau, mains[(tour % nbJoueurs)], tuile, coordsX-97, coordsY-65);
 
         while(!kbhit());
         char c = ' ';
