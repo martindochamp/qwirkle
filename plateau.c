@@ -31,9 +31,15 @@ bool placementValide(t_tuile** plateau, t_tuile* main, int tuile, int x, int y, 
     //Si il n'y a pas de tuile sur les cotes alors le coup est mauvais
     if (tuileCotes == 0)
         return false;
-    else
-        return true;
 
+    int i = 1;
+    while (plateau[x+i][y].forme != ' ') {
+        if (main[tuile].forme == plateau[x+i][y].forme)
+            return false;
+        i++;
+    }
+
+    return true;
 }
 
 void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
