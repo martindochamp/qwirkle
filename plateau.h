@@ -17,4 +17,6 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY);
 
 void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y);
 
+bool placementValide(t_tuile** plateau, t_tuile* main, int tuile, int x, int y, int coup);
+
 #endif // PLATEAU_H_INCLUDED

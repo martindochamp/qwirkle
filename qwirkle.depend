@@ -65,7 +65,7 @@
 
 1623680345 c:\users\marti\desktop\qwirkle\tuiles.h
 
-1623695623 source:c:\users\marti\desktop\qwirkle\tuiles.c
+1623746407 source:c:\users\marti\desktop\qwirkle\tuiles.c
 	"tuiles.h"
 	<windows.h>
 	<stdio.h>
@@ -73,7 +73,7 @@
 	<time.h>
 	<string.h>
 
-1623744415 source:c:\users\marti\desktop\qwirkle\etatjeu.c
+1623786066 source:c:\users\marti\desktop\qwirkle\etatjeu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -98,12 +98,13 @@
 
 1623598031 
 
-1623697931 c:\users\marti\desktop\qwirkle\plateau.h
+1623785632 c:\users\marti\desktop\qwirkle\plateau.h
 
-1623745944 source:c:\users\marti\desktop\qwirkle\plateau.c
+1623785572 source:c:\users\marti\desktop\qwirkle\plateau.c
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
+	<stdbool.h>
 	"tuiles.h"
 	"plateau.h"
 

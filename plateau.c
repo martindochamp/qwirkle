@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <windows.h>
+#include <stdbool.h>
 
 #include "tuiles.h"
 #include "plateau.h"
@@ -14,6 +15,24 @@ void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
     Color(plateau[x][y].couleur, 0);
     printf("%c", plateau[x][y].forme);
     Color(15, 0);
+
+}
+
+bool placementValide(t_tuile** plateau, t_tuile* main, int tuile, int x, int y, int coup) {
+    //Le premier coup est toujours bon
+    if (coup == 0)
+        return true;
+
+    int tuileCotes = 0;
+    if (plateau[x+1][y].forme != ' ' || plateau[x-1][y].forme != ' '
+        || plateau[x][y+1].forme != ' ' || plateau[x][y-1].forme != ' ')
+        tuileCotes++;
+
+    //Si il n'y a pas de tuile sur les cotes alors le coup est mauvais
+    if (tuileCotes == 0)
+        return false;
+    else
+        return true;
 
 }
 
@@ -172,6 +191,7 @@ void afficherPlateau(t_tuile** plateau) {
     afficherTitre();
 }
 
+//Fonction récupérer sur les ressources de campus, le nom des variables est légérement modifié
 void positionnerCurseur(int x, int y){
     COORD coords;
     coords.X = x;

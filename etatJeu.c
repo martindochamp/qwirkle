@@ -65,14 +65,12 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
         int coordsX = 0;
         int coordsY = 0;
 
-        recupererPlacement(mains[(tour % nbJoueurs)],&tuile, &coordsX, &coordsY);
+        do {
+            recupererPlacement(mains[(tour % nbJoueurs)],&tuile, &coordsX, &coordsY);
+        } while(!placementValide(plateau, mains[(tour % nbJoueurs)], tuile, coordsX-97, coordsY-65, tour));
 
         jouerPlacement(plateau, mains[(tour % nbJoueurs)], tuile, coordsX-97, coordsY-65);
 
-        while(!kbhit());
-        char c = ' ';
-        scanf("%c", &c);
-        fflush(stdin);
         tour++;
     }
 }
