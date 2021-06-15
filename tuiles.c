@@ -84,10 +84,10 @@ void retournerNomTuile(t_tuile tuile, char* nomTuile)
             strcpy(chaine2, "vert");
             break;
         case 3 :
-            strcpy(chaine2, "rouge");
+            strcpy(chaine2, "bleu");
             break;
         case 4 :
-            strcpy(chaine2, "bleu");
+            strcpy(chaine2, "rouge");
             break;
         case 5 :
             strcpy(chaine2, "violet");
@@ -99,7 +99,8 @@ void retournerNomTuile(t_tuile tuile, char* nomTuile)
             strcpy(chaine2, "blanc");
             break;
     }
-     switch(tuile.forme)
+
+     switch((unsigned char)tuile.forme)
     {
         case 0x03 :
             strcpy(chaine1, "Coeur ");
