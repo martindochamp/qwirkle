@@ -1,4 +1,4 @@
 qwirkle.layout
 *.depend
-bin/*
-obj/*
+bin/*.
+obj/*.
