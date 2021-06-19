@@ -124,11 +124,11 @@ void afficherPseudos(int nbJoueurs, char** pseudos) {
 
 void afficherErreur(char* erreur) {
     //On efface l'ancienne erreur
-    positionnerCurseur(8, 19);
-    for (int i = 0; i < 26; i++)
+    positionnerCurseur(10, 19);
+    for (int i = 0; i < 52; i++)
         printf(" ");
 
-    positionnerCurseur(8, 19);
+    positionnerCurseur(10, 19);
     Color(12, 0);
     printf("%s", erreur);
     Color(15, 0);

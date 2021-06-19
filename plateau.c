@@ -27,13 +27,14 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
 
     //Couleur
     int i = 1;
-    while (plateau[x+1][y].forme != ' ' && x+i < 26) {
-        if (plateau[x+1][y].forme == main[tuile].forme) {
-            strcpy(erreur, "La forme est deja presente sur la ligne");
-            return false;
-        }
-    }
-
+    while (x+i < 26 && plateau[x+1][y].forme != ' ')
+        if (plateau[x+1][y].forme != ' ')
+            if (plateau[x+1][y].forme == main[tuile].forme) {
+                strcpy(erreur, "La forme est deja presente sur la ligne");
+                return false;
+            }
+        else
+            break;
 
     return true;
 }
