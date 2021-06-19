@@ -18,26 +18,22 @@ void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
 
 }
 
-bool placementValide(t_tuile** plateau, t_tuile* main, int tuile, int x, int y, int coup) {
+bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, int x, int y, int coup) {
     //Le premier coup est toujours bon
     if (coup == 0)
         return true;
 
-    int tuileCotes = 0;
-    if (plateau[x+1][y].forme != ' ' || plateau[x-1][y].forme != ' '
-        || plateau[x][y+1].forme != ' ' || plateau[x][y-1].forme != ' ')
-        tuileCotes++;
+    //Recherche côté haut
 
-    //Si il n'y a pas de tuile sur les cotes alors le coup est mauvais
-    if (tuileCotes == 0)
-        return false;
-
+    //Couleur
     int i = 1;
-    while (plateau[x+i][y].forme != ' ') {
-        if (main[tuile].forme == plateau[x+i][y].forme)
+    while (plateau[x+1][y].forme != ' ' && x+i < 26) {
+        if (plateau[x+1][y].forme == main[tuile].forme) {
+            strcpy(erreur, "La forme est deja presente sur la ligne");
             return false;
-        i++;
+        }
     }
+
 
     return true;
 }
@@ -99,8 +95,8 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
 }
 
 void initialiserPlateau(t_tuile** plateau) {
-    for (int i = 0; i < LIGNES; i++)
-        for (int j = 0; j < COLONNES; j++) {
+    for (int i = 0; i < COLONNES; i++)
+        for (int j = 0; j < LIGNES; j++) {
             plateau[i][j].couleur = 0;
             plateau[i][j].forme = ' ';
         }
@@ -188,8 +184,8 @@ void afficherPlateau(t_tuile** plateau) {
         printf("%c ", (97 - 32 + i));
         for(int j = 0; j < COLONNES; j++)
         {
-            Color(plateau[i][j].couleur, 0);
-            printf("%c ", plateau[i][j].forme);
+            Color(plateau[j][i].couleur, 0);
+            printf("%c ", plateau[j][i].forme);
             Color(15, 0);
         }
     }
