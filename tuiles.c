@@ -17,11 +17,11 @@ void genererPioche(t_tuile* tuiles, int modeDeJeu)
 {
     int lim = (modeDeJeu == 1) ? 3 : 1;
     int index = 0;
+    int couleurs[] = {14, 15, 4, 3, 2, 5};
+    char formes[] = {0x03, 0x04, 0x05, 0x0F, 0x06, 0xFE};
     for (int i = 0; i < 6; i++)
         for (int j = 0; j < 6; j++)
             for (int k = 0; k < lim; k++) {
-                int couleurs[] = {14, 15, 4, 3, 2, 5};
-                char formes[] = {0x03, 0x04, 0x05, 0x0F, 0x06, 0xFE};
                 tuiles[index].couleur = couleurs[i];
                 tuiles[index].forme = formes[j];
                 index++;

@@ -13,6 +13,7 @@ HANDLE rHnd;
 
 void tailleConsole();
 void enleverScrollBar();
+void menuLancement();
 
 int main()
 {
@@ -35,10 +36,39 @@ int main()
         prgmTuiles();
         return 0;
     case 3:
+        menuLancement();
         preparationJeu();
         return 0;
     }
     return 0;
+}
+
+void menuLancement() {
+    system("cls");
+    positionnerCurseur(44, 12);
+
+    int couleurs[] = {4, 15, 4, 15, 4, 15};
+    char formes[] = {0x03, 0x04, 0x05, 0x0F, 0x06, 0xFE};
+
+    for (int i = 0; i < 6; i++) {
+        Color(couleurs[i], 0);
+        printf("%c ", formes[i]);
+    }
+
+    Color(14, 0);
+    printf("Qwirkle ");
+
+    for (int i = 5; i >= 0; i--) {
+        Color(couleurs[i], 0);
+        printf("%c ", formes[i]);
+    }
+
+    positionnerCurseur(41, 17);
+    Color(15, 0);
+    printf("Appuyer sur une touche pour commencer");
+
+    while(!kbhit());
+
 }
 
 //Source : https://cboard.cprogramming.com/cplusplus-programming/97959-[ask]-how-remove-scrollbar.html
