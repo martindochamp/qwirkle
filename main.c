@@ -1,18 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <windows.h>
 
 #include "interfaces.h"
 #include "tuiles.h"
 #include "etatJeu.h"
 #include "plateau.h"
 
-void demanderPlacementPion(int* coordsCoup);
-void jouerCoup(char map[COLONNES][LIGNES]);
-void initialiserMat(char m[COLONNES][LIGNES], int cM[COLONNES][LIGNES]);
+HANDLE wHnd;
+HANDLE rHnd;
+
+void tailleConsole();
+void enleverScrollBar();
 
 int main()
 {
+    tailleConsole();
+    enleverScrollBar();
     int res;
     do {
         printf("Mode de fonctionnement du prgm : \n");
@@ -36,33 +41,27 @@ int main()
     return 0;
 }
 
-void demanderPlacementPion(int* coordsCoup)
+//Source : https://cboard.cprogramming.com/cplusplus-programming/97959-[ask]-how-remove-scrollbar.html
+void enleverScrollBar()
 {
-    printf("\nQue voulez vous jouer ?\n");
-    char x, y;
-
-    do {
-        fflush(stdin);
-        x = getc(stdin);
-    } while (!(x >= 'a' && x <= 'z'));
-
-    do {
-        fflush(stdin);
-        y = getc(stdin);
-    } while (!(y >= 'A' && y <= 'L'));
-
-    coordsCoup[0] = x;
-    coordsCoup[1] = y;
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    GetConsoleScreenBufferInfo(handle, &info);
+    COORD new_size =
+    {
+        info.srWindow.Right - info.srWindow.Left + 1,
+        info.srWindow.Bottom - info.srWindow.Top + 1
+    };
+    SetConsoleScreenBufferSize(handle, new_size);
 }
 
-
-void jouerCoup(char map[COLONNES][LIGNES]) {
-    int coordsCoup[2];
-    demanderPlacementPion(coordsCoup);
-
-    printf("\nCoup en %c%c", coordsCoup[0], coordsCoup[1]);
-    printf("\n x = %d y = %d", coordsCoup[0] - 97, coordsCoup[1] - 65);
-    //Sleep(3000);
-    map[coordsCoup[0] - 97][coordsCoup[1] - 65] = 0x03;
+//Source : https://followtutorials.com/2011/09/how-to-resize-console-window-using-c.html
+void tailleConsole() {
+    wHnd = GetStdHandle(STD_OUTPUT_HANDLE);
+    rHnd = GetStdHandle(STD_INPUT_HANDLE);
+    SetConsoleTitle("Qwirkle : Alignez les tuiles !");
+    SMALL_RECT windowSize = {0, 0, 120, 25};
+    SetConsoleWindowInfo(wHnd, 1, &windowSize);
+    COORD bufferSize = {10, 10};
+    SetConsoleScreenBufferSize(wHnd, bufferSize);
 }
-
