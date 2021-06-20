@@ -30,7 +30,7 @@ int main()
         printf("2. Lisa\n");
         printf("3. Martin\n");
         scanf("%d", &res);
-    } while(!(res > 0 && res < 4));
+    } while(!(res > 0 && res <= 4));
 
     switch(res) {
     case 1:
@@ -43,8 +43,20 @@ int main()
         menuLancement();
         preparationJeu();
         return 0;
+    case 4:
+        afficherKb();
     }
     return 0;
+}
+
+void afficherKb() {
+    int res;
+    while(true) {
+        while(!kbhit());
+        res = getch();
+        system("cls");
+        printf("%d", res);
+    }
 }
 
 void menuLancement() {

@@ -94,13 +94,65 @@ int demanderModeDeJeu() {
 }
 
 int demanderNombreJoueur() {
-    int nbJoueur = 0;
+    char nombres[3][40] = {
+        {
+        0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBB,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        0xC9,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBC,
+        0xBA,' ',' ',' ',' ',' ',' ',' ',
+        0xC8,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD
+        },
+        {
+        0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBB,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        ' ',0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xB9,
+        ' ',' ',' ',' ',' ',' ',' ',0xBA,
+        0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBC
+        },
+        {
+        0xBA,' ',' ',' ',' ',' ',' ',0xBA,
+        0xBA,' ',' ',' ',' ',' ',' ', 0xBA,
+        0xC8,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xB9,
+        ' ',' ',' ',' ',' ',' ',' ',0xBA,
+        ' ',' ',' ',' ',' ',' ',' ',0xBA
+        },
+    };
+
+    int nbJoueur = 2;
+    int res;
+
+    system("cls");
     do {
-        system("cls");
-        printf("Combien de joueur ? (2 a 4)\n");
-        fflush(stdin);
-        scanf("%d", &nbJoueur);
-    } while(!(nbJoueur >= 2 && nbJoueur <= 4));
+
+        if (res == 80 && nbJoueur > 2)
+            nbJoueur--;
+
+        if (res == 72 && nbJoueur < 4)
+            nbJoueur++;
+
+        Color(11, 0);
+
+        int index = 0;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 8; j++) {
+                positionnerCurseur(44+j, 12+i);
+                printf("%c", nombres[nbJoueur-2][index]);
+                index++;
+            }
+        }
+
+        positionnerCurseur(55, 13);
+        Color(15, 0);
+        printf("Combien de joueur ?");
+        Color(7, 0);
+        positionnerCurseur(55, 14);
+        printf("%c Augmenter avec les fl%cches", 0xFE, 0x8A);
+        positionnerCurseur(55, 15);
+        printf("%c Valider avec entr%ce", 0xFE, 0x82);
+        positionnerCurseur(60, 0);
+        while(!kbhit());
+        res = getch();
+    } while(res != 13);
     return nbJoueur;
 }
 
