@@ -9,6 +9,7 @@
 #include "plateau.h"
 
 #define _WIN32_WINNT 0x0500
+
 HANDLE wHnd;
 HANDLE rHnd;
 
@@ -23,6 +24,8 @@ int main()
 
     tailleConsole();
     enleverScrollBar();
+    cacherCurseur();
+
     int res;
     do {
         printf("Mode de fonctionnement du prgm : \n");
@@ -61,6 +64,7 @@ void afficherKb() {
 
 void menuLancement() {
     system("cls");
+    int res;
     positionnerCurseur(44, 12);
 
     int couleurs[] = {4, 15, 4, 15, 4, 15};
@@ -79,12 +83,12 @@ void menuLancement() {
         printf("%c ", formes[i]);
     }
 
-    positionnerCurseur(41, 17);
+    positionnerCurseur(41, 13);
     Color(15, 0);
     printf("Appuyer sur une touche pour commencer");
 
     while(!kbhit());
-
+    res = getch();
 }
 
 //Source : https://cboard.cprogramming.com/cplusplus-programming/97959-[ask]-how-remove-scrollbar.html
@@ -99,6 +103,16 @@ void enleverScrollBar()
         info.srWindow.Bottom - info.srWindow.Top + 1
     };
     SetConsoleScreenBufferSize(handle, new_size);
+}
+
+//Source : https://stackoverflow.com/questions/30126490/how-to-hide-console-cursor-in-c
+void cacherCurseur()
+{
+   HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+   CONSOLE_CURSOR_INFO info;
+   info.dwSize = 100;
+   info.bVisible = FALSE;
+   SetConsoleCursorInfo(consoleHandle, &info);
 }
 
 //Source : https://followtutorials.com/2011/09/how-to-resize-console-window-using-c.html

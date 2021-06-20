@@ -25,7 +25,6 @@ void preparationJeu() {
     lancementJeu(nbJoueurs, pseudos, modeDeJeu);
 }
 
-
 void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
     //On génère la pioche en fonction du mode de jeu, puis on mélange les tuiles
@@ -81,15 +80,53 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 }
 
 int demanderModeDeJeu() {
-    int modeDeJeu = -1;
+    int modeDeJeu = 1;
+    int res;
     do {
         system("cls");
-        printf("Mode de jeu :\n");
-        printf("- Mode normal\n");
-        printf("- Mode degrade\n\n");
-        fflush(stdin);
-        scanf("%d", &modeDeJeu);
-    } while (!(modeDeJeu == 1 || modeDeJeu == 2));
+        if (res == 75 && modeDeJeu == 2)
+            modeDeJeu = 1;
+        if (res == 77 && modeDeJeu == 1)
+            modeDeJeu = 2;
+
+        positionnerCurseur(50, 11);
+        Color(11, 0);
+        printf("%c%c%c ", 0xCD, 0xCD, 0xCD);
+        Color(15, 0);
+        printf("Mode de jeu ");
+        Color(11, 0);
+        printf("%c%c%c ", 0xCD, 0xCD, 0xCD);
+
+        if (modeDeJeu == 1) {
+            positionnerCurseur(42, 13);
+            Color(11, 0);
+            printf("%c %c ", 0x05, 0x03);
+            Color(15, 0);
+            printf("Normal ");
+            Color(11, 0);
+            printf("%c %c", 0x03, 0x05);
+
+            positionnerCurseur(66, 13);
+            Color(7, 0);
+            printf("D%cgrad%c ", 0x82, 0x82);
+
+        } else {
+            positionnerCurseur(46, 13);
+            Color(7, 0);
+            printf("Normal");
+
+            positionnerCurseur(62, 13);
+            Color(11, 0);
+            printf("%c %c ", 0x05, 0x03);
+            Color(15, 0);
+            printf("D%cgrad%c ", 0x82, 0x82);
+            Color(11, 0);
+            printf("%c %c", 0x03, 0x05);
+        }
+
+        while(!kbhit());
+        res = getch();
+    } while (res != 13);
     return modeDeJeu;
 }
 
@@ -122,34 +159,31 @@ int demanderNombreJoueur() {
     int res;
 
     system("cls");
-    do {
+    positionnerCurseur(55, 13);
+    Color(15, 0);
+    printf("Combien de joueur ?");
+    Color(7, 0);
+    positionnerCurseur(55, 14);
+    printf("%c Augmenter avec les fl%cches", 0x1E, 0x8A);
+    positionnerCurseur(55, 15);
+    printf("%c Valider avec entr%ce", 0x1F, 0x82);
+    positionnerCurseur(60, 0);
 
+    do {
         if (res == 80 && nbJoueur > 2)
             nbJoueur--;
-
         if (res == 72 && nbJoueur < 4)
             nbJoueur++;
 
-        Color(11, 0);
-
         int index = 0;
-        for (int i = 0; i < 5; i++) {
+        Color(11, 0);
+        for (int i = 0; i < 5; i++)
             for (int j = 0; j < 8; j++) {
                 positionnerCurseur(44+j, 12+i);
                 printf("%c", nombres[nbJoueur-2][index]);
                 index++;
             }
-        }
 
-        positionnerCurseur(55, 13);
-        Color(15, 0);
-        printf("Combien de joueur ?");
-        Color(7, 0);
-        positionnerCurseur(55, 14);
-        printf("%c Augmenter avec les fl%cches", 0xFE, 0x8A);
-        positionnerCurseur(55, 15);
-        printf("%c Valider avec entr%ce", 0xFE, 0x82);
-        positionnerCurseur(60, 0);
         while(!kbhit());
         res = getch();
     } while(res != 13);
