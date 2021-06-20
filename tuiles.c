@@ -5,8 +5,6 @@
 #include <time.h>
 #include <string.h>
 
-void distribuerTuiles(t_tuile** decks, t_tuile* pioche, int nbJoueurs, int modeDeJeu);
-
 void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de couleurs
 {
     HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
@@ -15,6 +13,7 @@ void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de coul
 
 void genererPioche(t_tuile* tuiles, int modeDeJeu)
 {
+    //On crée toutes les tuiles dans l'ordre
     int lim = (modeDeJeu == 1) ? 3 : 1;
     int index = 0;
     int couleurs[] = {14, 15, 4, 3, 2, 5};
@@ -26,21 +25,32 @@ void genererPioche(t_tuile* tuiles, int modeDeJeu)
                 tuiles[index].forme = formes[j];
                 index++;
             }
+    //On mélange la pioche
+    srand(time(NULL));
+    char formeTemp;
+    int tuileAlea1, tuileAlea2, couleurTemp;
+
+    for (int i = 0; i < 100; i++) {
+        tuileAlea1 = rand() % index;
+        tuileAlea2 = rand() % index;
+
+        couleurTemp = tuiles[tuileAlea1].couleur;
+        formeTemp = tuiles[tuileAlea1].forme;
+
+        tuiles[tuileAlea1].couleur = tuiles[tuileAlea2].couleur;
+        tuiles[tuileAlea1].forme = tuiles[tuileAlea2].forme;
+
+        tuiles[tuileAlea2].couleur = couleurTemp;
+        tuiles[tuileAlea2].forme = formeTemp;
+    }
 }
 
-void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeDeJeu) {
-    srand(time(NULL));
-    for (int i = 0; i < nbJoueurs; i++) {
-        for (int j = 0; j < 6; j++) {
-            int randomInt;
-            do {
-                randomInt = rand() % (modeDeJeu == 1 ? 107 : 35);
-            } while (pioche[randomInt].forme == ' ');
-            mains[i][j] = pioche[randomInt];
-            pioche[randomInt].couleur = 0;
-            pioche[randomInt].forme = ' ';
+void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeDeJeu, int* index) {
+    for (int i = 0; i < 6; i++)
+        for (int j = 0; j < nbJoueurs; j++) {
+            mains[j][i] = pioche[*index];
+            *index += 1;
         }
-    }
 }
 
 void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs) {
@@ -65,6 +75,12 @@ void afficherDeck(t_tuile* tuiles)
         printf("%c", tuiles[i].forme);
         Color(15, 0);
     }
+}
+
+void remplacerTuile(t_tuile* tuile, t_tuile* pioche, int* index) {
+    tuile->couleur = pioche[*index].couleur;
+    tuile->forme = pioche[*index].forme;
+    *index += 1;
 }
 
 void prgmTuiles() {

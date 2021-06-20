@@ -8,6 +8,7 @@
 #include "etatJeu.h"
 #include "plateau.h"
 
+#define _WIN32_WINNT 0x0500
 HANDLE wHnd;
 HANDLE rHnd;
 
@@ -17,6 +18,9 @@ void menuLancement();
 
 int main()
 {
+    HWND consoleWindow = GetConsoleWindow();
+    SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
+
     tailleConsole();
     enleverScrollBar();
     int res;

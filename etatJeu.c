@@ -28,17 +28,19 @@ void preparationJeu() {
 
 void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
-    //On génére le deck en fonction du mode de jeu
+    //On génère la pioche en fonction du mode de jeu, puis on mélange les tuiles
     t_tuile* pioche = (t_tuile*) malloc((modeDeJeu == 1 ? 108 : 36)*sizeof(t_tuile));
     genererPioche(pioche, modeDeJeu);
-    t_tuile** mains = (t_tuile**) malloc(nbJoueurs*sizeof(t_tuile*));
 
     //Distribution des cartes
+    t_tuile** mains = (t_tuile**) malloc(nbJoueurs*sizeof(t_tuile*));
     for (int i = 0; i < nbJoueurs; i++)
         mains[i] = (t_tuile*) malloc(6*sizeof(t_tuile));
 
+    int index = 0;
+    distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu, &index);
 
-    distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu);
+
     //afficherMainsJoueurs(mains, pseudos, nbJoueurs);
     t_tuile** plateau = (t_tuile**) malloc(COLONNES*sizeof(t_tuile*));
     for (int i = 0; i < COLONNES; i++)
@@ -72,6 +74,7 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
         } while(!placementValide(plateau, erreur, mains[(tour % nbJoueurs)], tuile, coordsX-97, coordsY-65, tour));
 
         jouerPlacement(plateau, mains[(tour % nbJoueurs)], tuile, coordsX-97, coordsY-65);
+        remplacerTuile(&mains[tour % nbJoueurs][tuile], pioche, &index);
 
         tour++;
     }

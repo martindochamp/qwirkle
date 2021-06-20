@@ -7,7 +7,8 @@
 #include "plateau.h"
 
 void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
-
+    positionnerCurseur(0, 0);
+    printf("Placement en %d/%d", x, y);
     plateau[x][y].couleur = main[tuile].couleur;
     plateau[x][y].forme = main[tuile].forme;
 
@@ -23,20 +24,102 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
     if (coup == 0)
         return true;
 
-    //Recherche côté haut
-
-    //Couleur
+    bool formePresente = false;
+    //On vérifie dans nos quatres directions si la forme est déjà présente
     int i = 1;
-    while (x+i < 26 && plateau[x+1][y].forme != ' ')
-        if (plateau[x+1][y].forme != ' ')
+    while (x+i < 26)
+        if (plateau[x+1][y].forme != ' ') {
             if (plateau[x+1][y].forme == main[tuile].forme) {
                 strcpy(erreur, "La forme est deja presente sur la ligne");
-                return false;
+                formePresente = true;
             }
-        else
+            i++;
+        } else
             break;
 
-    return true;
+    i = 1;
+    while (x-i > 0)
+        if (plateau[x-1][y].forme != ' ') {
+            if (plateau[x-1][y].forme == main[tuile].forme) {
+                strcpy(erreur, "La forme est deja presente sur la ligne");
+                formePresente = true;
+            }
+            i++;
+        } else
+            break;
+
+    i = 1;
+    while (y-i > 0)
+        if (plateau[x][y-1].forme != ' ') {
+            if (plateau[x][y-1].forme == main[tuile].forme) {
+                strcpy(erreur, "La forme est deja presente sur la ligne");
+                formePresente = true;
+            }
+            i++;
+        } else
+            break;
+
+    i = 1;
+    while (y+i < 12)
+        if (plateau[x][y+1].forme != ' ') {
+            if (plateau[x][y+1].forme == main[tuile].forme) {
+                strcpy(erreur, "La forme est deja presente sur la ligne");
+                formePresente = true;
+            }
+            i++;
+        } else
+            break;
+
+    bool couleurDifferente = false;
+    //On vérifie dans nos quatres conditions si la couleur est déjà présente
+    i = 1;
+    while (x+i < 26)
+        if (plateau[x+1][y].forme != ' ') {
+            if (plateau[x+1][y].couleur != main[tuile].couleur) {
+                strcpy(erreur, "La couleur est différente sur la ligne");
+                couleurDifferente = true;
+            }
+            i++;
+        } else
+            break;
+
+    i = 1;
+    while (x-i > 0)
+        if (plateau[x-1][y].forme != ' ') {
+            if (plateau[x-1][y].couleur != main[tuile].couleur) {
+                strcpy(erreur, "La couleur est différente sur la ligne");
+                couleurDifferente = true;
+            }
+            i++;
+        } else
+            break;
+
+    i = 1;
+    while (y-i > 0)
+        if (plateau[x][y-1].forme != ' ') {
+            if (plateau[x][y-1].forme != main[tuile].forme) {
+                strcpy(erreur, "La forme est différente sur la ligne");
+                couleurDifferente = true;
+            }
+            i++;
+        } else
+            break;
+
+    i = 1;
+    while (y+i < 12)
+        if (plateau[x][y+1].forme != ' ') {
+            if (plateau[x][y+1].couleur != main[tuile].couleur) {
+                strcpy(erreur, "La couleur est deja presente sur la ligne");
+                couleurDifferente = true;
+            }
+            i++;
+        } else
+            break;
+
+    if ((couleurDifferente && formePresente) || (!couleurDifferente && !formePresente))
+        return true;
+
+    return false;
 }
 
 void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
