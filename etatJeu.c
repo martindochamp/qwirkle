@@ -191,16 +191,48 @@ int demanderNombreJoueur() {
 }
 
 void demanderPseudos(int nbJoueurs, char** pseudos) {
+    system("cls");
+
     for (int i = 0; i < nbJoueurs; i++) {
-        char pseudoTemp[20];
+        positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3);
+        Color(11, 0);
+        printf("%c%c ", 0xCD, 0xCD);
+        Color(15, 0);
+        printf("Joueur %d", i+1);
+        Color(11, 0);
+        printf(" %c%c", 0xCD, 0xCD);
+        positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
+        Color(7, 0);
+        int res;
+        int nbChar = 0;
+        char pseudo[20];
+        for (int j = 0; j < 20; j++)
+            pseudo[i] = ' ';
+
         do {
-            system("cls");
-            printf("Pseudo joueur %d : (Minimum 3 caracteres)\n\n", i+1);
-            fflush(stdin);
-            scanf("%[^\n]s", pseudoTemp);
-        } while(sizeof(pseudoTemp) < 3);
-        pseudos[i] = (char*) malloc((strlen(pseudoTemp)+1)*sizeof(char*));
-        strcpy(&pseudos[i][0], pseudoTemp);
+            if((res >= 'a' && res <= 'z') || (res >= 'A' && res <= 'Z') || res == ' ') {
+                if (nbChar < 19) {
+                    positionnerCurseur(50 + nbChar, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
+                    printf("%c", res);
+                    pseudo[nbChar] = res;
+                    nbChar++;
+                }
+            }
+
+            if (res == 8 && nbChar >= 0) {
+                positionnerCurseur(50 + nbChar-1, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
+                printf(" ");
+                pseudo[nbChar] = ' ';
+                if (nbChar > 0)
+                    nbChar--;
+            }
+            while (!kbhit());
+            res = getch();
+        } while(res != 13);
+
+        positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 2);
+        pseudos[i] = (char*) malloc((strlen(pseudo)+1)*sizeof(char));
+        strcpy(pseudos[i], pseudo);
     }
 }
 
