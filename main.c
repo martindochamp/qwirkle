@@ -28,30 +28,23 @@ int main()
     tailleConsole();
     enleverScrollBar();
     cacherCurseur();
+    int choixMenu = menuLancement();
 
-    int res;
-    do {
-        printf("Mode de fonctionnement du prgm : \n");
-        printf("1. Test menu\n");
-        printf("2. Lisa\n");
-        printf("3. Martin\n");
-        scanf("%d", &res);
-    } while(!(res > 0 && res <= 4));
-
-    switch(res) {
-    case 1:
-        emmaPrgm();
-        return 0;
-    case 2:
-        prgmTuiles();
-        return 0;
-    case 3:
-        menuLancement();
-        preparationJeu();
-        return 0;
-    case 4:
-        afficherKb();
+    switch (choixMenu) {
+        case 1:
+            preparationJeu();
+            break;
+        case 2:
+            break;
+        case 3:
+            emmaPrgm();
+            break;
+        case 4:
+            break;
+        case 5:
+            return 0;
     }
+
     return 0;
 }
 
