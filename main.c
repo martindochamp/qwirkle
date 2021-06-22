@@ -15,7 +15,10 @@ HANDLE rHnd;
 
 void tailleConsole();
 void enleverScrollBar();
-void menuLancement();
+int menuLancement();
+void cacherCurseur();
+void afficherKb();
+void afficherCurseurCoeur(int phrase, int choix);
 
 int main()
 {
@@ -62,10 +65,10 @@ void afficherKb() {
     }
 }
 
-void menuLancement() {
+int menuLancement() {
     system("cls");
     int res;
-    positionnerCurseur(44, 12);
+    positionnerCurseur(44, 11);
 
     int couleurs[] = {4, 15, 4, 15, 4, 15};
     char formes[] = {0x03, 0x04, 0x05, 0x0F, 0x06, 0xFE};
@@ -83,12 +86,56 @@ void menuLancement() {
         printf("%c ", formes[i]);
     }
 
-    positionnerCurseur(41, 13);
     Color(15, 0);
-    printf("Appuyer sur une touche pour commencer");
 
-    while(!kbhit());
-    res = getch();
+    int selection = 1;
+    int marges[5] = {2, 1, 4, 7, 7};
+    for (int i = 0; i < 5; i++) {
+        positionnerCurseur(45+marges[i], 13+i);
+        afficherCurseurCoeur(i, selection);
+    }
+
+    do {
+        while (!kbhit());
+        res = getch();
+
+        int surplus = selection;
+        if (res == 72 && selection > 1)
+            selection--;
+
+        if (res == 80 && selection < 5)
+            selection++;
+
+        //On efface les choix qui changent
+        for (int i = 0; i < 40; i++) {
+            positionnerCurseur(50+i, 12+selection);
+            printf(" ");
+            positionnerCurseur(50+i, 12+surplus);
+            printf(" ");
+        }
+
+        positionnerCurseur(45+marges[selection-1], 12+selection);
+        afficherCurseurCoeur(selection-1, selection);
+
+        positionnerCurseur(45+marges[surplus-1], 12+surplus);
+        afficherCurseurCoeur(surplus-1, selection);
+    } while(res != 13);
+    return selection;
+}
+
+void afficherCurseurCoeur(int phrase, int choix) {
+    char phrases[5][30] = {"Lancer une partie", "Reprendre la partie", "Regles du jeu", "Credits", "Quitter"};
+    if (phrase+1 == choix) {
+        Color(11, 0);
+        printf("%c %c ", 0x06, 0x04);
+        Color(15, 0);
+        printf("%s", phrases[phrase]);
+        Color(11, 0);
+        printf(" %c %c", 0x04, 0x06);
+    } else {
+        Color(7, 0);
+        printf("    %s", phrases[phrase]);
+    }
 }
 
 //Source : https://cboard.cprogramming.com/cplusplus-programming/97959-[ask]-how-remove-scrollbar.html

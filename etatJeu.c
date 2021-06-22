@@ -193,6 +193,16 @@ int demanderNombreJoueur() {
 void demanderPseudos(int nbJoueurs, char** pseudos) {
     system("cls");
 
+    Color(7, 0);
+    positionnerCurseur(70, 12);
+    printf("%c Veuillez saisir les pseudos de chaque joueur", 0xFE);
+    positionnerCurseur(72, 13);
+    printf("(20 caract%cres maximum)", 0x8A);
+
+    positionnerCurseur(70, 15);
+    printf("%c Pour valider utiliser la touche entr%ce", 0xFE, 0x82);
+
+    //On demande les pseudos des joueurs
     for (int i = 0; i < nbJoueurs; i++) {
         positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3);
         Color(11, 0);
@@ -205,11 +215,10 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
         Color(7, 0);
         int res;
         int nbChar = 0;
-        char pseudo[20];
-        for (int j = 0; j < 20; j++)
-            pseudo[i] = ' ';
+        char pseudo[20] = {'\0'};
 
         do {
+            //Système de blindage et d'écriture de pseudo
             if((res >= 'a' && res <= 'z') || (res >= 'A' && res <= 'Z') || res == ' ') {
                 if (nbChar < 19) {
                     positionnerCurseur(50 + nbChar, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
@@ -229,9 +238,7 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
             while (!kbhit());
             res = getch();
         } while(res != 13);
-
-        positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 2);
-        pseudos[i] = (char*) malloc((strlen(pseudo)+1)*sizeof(char));
+        pseudos[i] = (char*) malloc(strlen(pseudo)*sizeof(char));
         strcpy(pseudos[i], pseudo);
     }
 }
