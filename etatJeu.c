@@ -238,7 +238,7 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
             while (!kbhit());
             res = getch();
         } while(res != 13);
-        pseudos[i] = (char*) malloc(strlen(pseudo)*sizeof(char));
+        pseudos[i] = (char*) malloc((strlen(pseudo)+1)*sizeof(char));
         strcpy(pseudos[i], pseudo);
     }
 }

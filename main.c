@@ -42,7 +42,7 @@ int main()
         case 4:
             break;
         case 5:
-            return 0;
+            PostMessage(GetConsoleWindow(), WM_CLOSE, 0, 0);
     }
 
     return 0;

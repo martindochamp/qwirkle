@@ -24,6 +24,20 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
     if (coup == 0)
         return true;
 
+    //Vérification si des tuiles sont à côtés
+    int tuileCotes = 0;
+
+    int i = 1;
+    while (x+1 < 26) {
+        if (plateau[x+1][y].forme != ' ') {
+            if (plateau[x+1][y].forme == main[tuile].forme) {
+
+            }
+            i++;
+        } else
+            break;
+    }
+
     bool formePresente = false;
     //On vérifie dans nos quatres directions si la forme est déjà présente
     int i = 1;
@@ -34,6 +48,7 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
                 formePresente = true;
             }
             i++;
+            tuileCotes++;
         } else
             break;
 
@@ -45,6 +60,7 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
                 formePresente = true;
             }
             i++;
+            tuileCotes++;
         } else
             break;
 
@@ -56,6 +72,7 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
                 formePresente = true;
             }
             i++;
+            tuileCotes++;
         } else
             break;
 
@@ -67,6 +84,7 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
                 formePresente = true;
             }
             i++;
+            tuileCotes++;
         } else
             break;
 
@@ -115,6 +133,12 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
             i++;
         } else
             break;
+
+    if (tuileCotes == 0) {
+        strcpy(erreur, "Placement invalide, aucune tuile autour !");
+        return false;
+    }
+
 
     if ((couleurDifferente && formePresente) || (!couleurDifferente && !formePresente))
         return true;
