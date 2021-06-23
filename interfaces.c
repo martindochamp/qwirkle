@@ -52,10 +52,6 @@ void ReglesJeu()
     printf("C. Echanger tout ou partie des tuiles de sa main contre differentes tuiles de la reserve, et passer son tour (sans jouer de tuile).\n\n");
     printf("Ajouter des tuiles a une ligne (ou colonne)\n"); //Couleur orange
     printf("Chacun a leur tour, les joueurs ajoutent des tuiles a la ligne creee au premier tour sans deborder l espace de jeu. Tous les coups joues doivent etre lies a la ligne existante.");
-    while (!kbhit());
-    char c;
-    getc(c);
-
 }
 
 void ModeJeu()

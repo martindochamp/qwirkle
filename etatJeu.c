@@ -14,6 +14,7 @@ void demanderPseudos(int nbJoueurs, char** pseudos);
 void afficherPseudos(int nbJoueurs, char** pseudos);
 void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu);
 void afficherErreur(char* erreur);
+void afficherPoints();
 
 void preparationJeu() {
     int modeDeJeu = demanderModeDeJeu();
@@ -39,13 +40,14 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
     int index = 0;
     distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu, &index);
 
-
     //afficherMainsJoueurs(mains, pseudos, nbJoueurs);
     t_tuile** plateau = (t_tuile**) malloc(COLONNES*sizeof(t_tuile*));
     for (int i = 0; i < COLONNES; i++)
         plateau[i] = (t_tuile*) malloc(LIGNES*sizeof(t_tuile));
 
     afficherPlateau(plateau);
+
+    int* points = (int*) malloc(nbJoueurs*sizeof(int));
 
     bool finJeu = false;
     int tour = 0;
@@ -67,6 +69,7 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
         int coordsY = 0;
 
         char erreur[30] = {0};
+
         do {
             afficherErreur(erreur);
             recupererPlacement(mains[(tour % nbJoueurs)],&tuile, &coordsX, &coordsY);
@@ -74,10 +77,12 @@ void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu) {
 
         jouerPlacement(plateau, mains[(tour % nbJoueurs)], tuile, coordsX-97, coordsY-65);
         remplacerTuile(&mains[tour % nbJoueurs][tuile], pioche, &index);
-
+        afficherPoints();
         tour++;
     }
 }
+
+
 
 int demanderModeDeJeu() {
     int modeDeJeu = 1;
@@ -243,6 +248,16 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
     }
 }
 
+void afficherPoints(){
+    int points,x,y;
+    t_tuile** plateau;
+    calculPoints(**plateau,x,y);
+
+    system("cls");
+    positionnerCurseur(10,20);
+    printf("Points : %d", points);
+    Color(15, 0);
+}
 
 void afficherPseudos(int nbJoueurs, char** pseudos) {
     system("cls");

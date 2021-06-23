@@ -7,8 +7,6 @@
 #include "plateau.h"
 
 void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
-    positionnerCurseur(0, 0);
-    printf("Placement en %d/%d", x, y);
     plateau[x][y].couleur = main[tuile].couleur;
     plateau[x][y].forme = main[tuile].forme;
 
@@ -16,7 +14,6 @@ void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
     Color(plateau[x][y].couleur, 0);
     printf("%c", plateau[x][y].forme);
     Color(15, 0);
-
 }
 
 bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, int x, int y, int coup) {
@@ -24,123 +21,30 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
     if (coup == 0)
         return true;
 
-    //Vérification si des tuiles sont à côtés
-    int tuileCotes = 0;
+    int directions[4] = {1, -1, 0, 0};
+    bool couleurPresente = false, formePresente = false, couleurDifferente = false, formeDifferente = false;
 
-    int i = 1;
-    while (x+1 < 26) {
-        if (plateau[x+1][y].forme != ' ') {
-            if (plateau[x+1][y].forme == main[tuile].forme) {
-
-            }
-            i++;
-        } else
-            break;
+    for (int i = 0; i < 4; i++) {
+        int j = 1;
+        while (x+(directions[i]*j) < 26 && x+(directions[i]*j) > 0 &&
+                y+(directions[3-i]*j) < 12 && y+(directions[3-i]*j) > 0) {
+            if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != ' ') {
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur == main[tuile].couleur)
+                    couleurPresente = true;
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme == main[tuile].forme)
+                    formePresente = true;
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur != main[tuile].couleur)
+                    couleurDifferente = true;
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != main[tuile].forme)
+                    formeDifferente = true;
+            } else
+                break;
+            j++;
+        }
     }
 
-    bool formePresente = false;
-    //On vérifie dans nos quatres directions si la forme est déjà présente
-    int i = 1;
-    while (x+i < 26)
-        if (plateau[x+1][y].forme != ' ') {
-            if (plateau[x+1][y].forme == main[tuile].forme) {
-                strcpy(erreur, "La forme est deja presente sur la ligne");
-                formePresente = true;
-            }
-            i++;
-            tuileCotes++;
-        } else
-            break;
-
-    i = 1;
-    while (x-i > 0)
-        if (plateau[x-1][y].forme != ' ') {
-            if (plateau[x-1][y].forme == main[tuile].forme) {
-                strcpy(erreur, "La forme est deja presente sur la ligne");
-                formePresente = true;
-            }
-            i++;
-            tuileCotes++;
-        } else
-            break;
-
-    i = 1;
-    while (y-i > 0)
-        if (plateau[x][y-1].forme != ' ') {
-            if (plateau[x][y-1].forme == main[tuile].forme) {
-                strcpy(erreur, "La forme est deja presente sur la ligne");
-                formePresente = true;
-            }
-            i++;
-            tuileCotes++;
-        } else
-            break;
-
-    i = 1;
-    while (y+i < 12)
-        if (plateau[x][y+1].forme != ' ') {
-            if (plateau[x][y+1].forme == main[tuile].forme) {
-                strcpy(erreur, "La forme est deja presente sur la ligne");
-                formePresente = true;
-            }
-            i++;
-            tuileCotes++;
-        } else
-            break;
-
-    bool couleurDifferente = false;
-    //On vérifie dans nos quatres conditions si la couleur est déjà présente
-    i = 1;
-    while (x+i < 26)
-        if (plateau[x+1][y].forme != ' ') {
-            if (plateau[x+1][y].couleur != main[tuile].couleur) {
-                strcpy(erreur, "La couleur est différente sur la ligne");
-                couleurDifferente = true;
-            }
-            i++;
-        } else
-            break;
-
-    i = 1;
-    while (x-i > 0)
-        if (plateau[x-1][y].forme != ' ') {
-            if (plateau[x-1][y].couleur != main[tuile].couleur) {
-                strcpy(erreur, "La couleur est différente sur la ligne");
-                couleurDifferente = true;
-            }
-            i++;
-        } else
-            break;
-
-    i = 1;
-    while (y-i > 0)
-        if (plateau[x][y-1].forme != ' ') {
-            if (plateau[x][y-1].forme != main[tuile].forme) {
-                strcpy(erreur, "La forme est différente sur la ligne");
-                couleurDifferente = true;
-            }
-            i++;
-        } else
-            break;
-
-    i = 1;
-    while (y+i < 12)
-        if (plateau[x][y+1].forme != ' ') {
-            if (plateau[x][y+1].couleur != main[tuile].couleur) {
-                strcpy(erreur, "La couleur est deja presente sur la ligne");
-                couleurDifferente = true;
-            }
-            i++;
-        } else
-            break;
-
-    if (tuileCotes == 0) {
-        strcpy(erreur, "Placement invalide, aucune tuile autour !");
-        return false;
-    }
-
-
-    if ((couleurDifferente && formePresente) || (!couleurDifferente && !formePresente))
+    if ((couleurDifferente && !formeDifferente) || (!couleurDifferente && formeDifferente)
+        && (formePresente || couleurPresente))
         return true;
 
     return false;
@@ -307,4 +211,50 @@ void positionnerCurseur(int x, int y){
     coords.X = x;
     coords.Y = y;
     SetConsoleCursorPosition(GetStdHandle( STD_OUTPUT_HANDLE ), coords);
+}
+
+int calculPoints(t_tuile** plateau, int x, int y)
+{
+    int points = 0;
+    int bonus = 6;
+    int coin = 2;
+    int i = 0;
+    int tuilesEnX = 0, tuilesEnY = 0;
+
+    while (plateau[x+i][y].forme != ' ' && x+i<26){
+        tuilesEnX++;
+    }
+
+
+    while (plateau[x-i][y].forme != ' ' && x-i>-1){
+        tuilesEnX++;
+    }
+
+
+    while (plateau[x][y+i].forme != ' ' && y+i<12){
+        tuilesEnY++;
+    }
+
+
+    while (plateau[x][y-i].forme != ' ' && y-i>-1)
+    {
+        tuilesEnY++;
+    }
+
+    if (tuilesEnX != 0 && tuilesEnY != 0)
+        points++;
+
+    tuilesEnX++;
+    tuilesEnY++;
+
+    if (tuilesEnX == 6)
+        points += 6;
+
+    if (tuilesEnY == 6)
+        points += 6;
+
+    points += tuilesEnX;
+    points += tuilesEnY;
+
+    return points;
 }
