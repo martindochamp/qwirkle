@@ -19,4 +19,6 @@ void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y);
 
 bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, int x, int y, int coup);
 
+int calculPoints(t_tuile** plateau, int x, int y);
+
 #endif // PLATEAU_H_INCLUDED

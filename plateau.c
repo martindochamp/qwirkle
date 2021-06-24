@@ -43,7 +43,7 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
         }
     }
 
-    if ((couleurDifferente && !formeDifferente) || (!couleurDifferente && formeDifferente)
+    if (((couleurDifferente && !formeDifferente) || (!couleurDifferente && formeDifferente))
         && (formePresente || couleurPresente))
         return true;
 
@@ -63,7 +63,7 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
         }
 
     positionnerCurseur(70, 8);
-    Color(14, 0);
+    Color(11, 0);
     printf("Quelle tuile voulez-vous jouer ?");
     Color(15, 0);
     positionnerCurseur(70, 9);
@@ -78,7 +78,7 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     printf("%s", strtest);
 
     positionnerCurseur(70, 11);
-    Color(14, 0);
+    Color(11, 0);
     printf("Quelle colonne ?");
     Color(15, 0);
     positionnerCurseur(70, 12);
@@ -90,7 +90,7 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     printf(" - %c ", x);
 
     positionnerCurseur(70, 14);
-    Color(14, 0);
+    Color(11, 0);
     printf("Quelle ligne ?");
     Color(15, 0);
     positionnerCurseur(70, 15);
@@ -123,9 +123,9 @@ void afficherMain(t_tuile** mains, char** pseudos, int joueur) {
     }
 
     positionnerCurseur(MARGEX, 2);
-    Color(11, 0);
-    printf("%s ", *(pseudos+joueur));
     Color(15, 0);
+    printf("%s ", *(pseudos+joueur));
+    Color(7, 0);
     printf("%c vous de jouer !", 0x85);
 
     positionnerCurseur(70, 5);
@@ -141,12 +141,12 @@ void afficherMain(t_tuile** mains, char** pseudos, int joueur) {
 
 void afficherTitre() {
     positionnerCurseur(MARGEX, 1);
-    Color(12, 0);
-    printf("%c ", 0x05);
     Color(11, 0);
-    printf("QWIRKLE ");
-    Color(12, 0);
-    printf("%c ", 0x05);
+    printf("%c %c ", 0x04, 0x06);
+    Color(15, 0);
+    printf("QWIRKLE");
+    Color(11, 0);
+    printf(" %c %c", 0x06, 0x04);
     Color(15, 0);
 }
 
@@ -169,6 +169,9 @@ void afficherBordure() {
     }
 
     //Bordure coin
+    positionnerCurseur(MARGEX-2, MARGEY-1);
+    printf("%c", 0xC9);
+
     positionnerCurseur(MARGEX-2, MARGEY-1);
     printf("%c", 0xC9);
     positionnerCurseur(MARGEX+54, MARGEY-1);
@@ -215,30 +218,22 @@ void positionnerCurseur(int x, int y){
 
 int calculPoints(t_tuile** plateau, int x, int y)
 {
-    int points = 0;
-    int bonus = 6;
-    int coin = 2;
-    int i = 0;
-    int tuilesEnX = 0, tuilesEnY = 0;
+    int points = 0, tuilesEnX = 0, tuilesEnY = 0;
+    int directions[4] = {1, -1, 0, 0};
 
-    while (plateau[x+i][y].forme != ' ' && x+i<26){
-        tuilesEnX++;
-    }
-
-
-    while (plateau[x-i][y].forme != ' ' && x-i>-1){
-        tuilesEnX++;
-    }
-
-
-    while (plateau[x][y+i].forme != ' ' && y+i<12){
-        tuilesEnY++;
-    }
-
-
-    while (plateau[x][y-i].forme != ' ' && y-i>-1)
-    {
-        tuilesEnY++;
+    for (int i = 0; i < 4; i++) {
+        int j = 1;
+        while (x+(directions[i]*j) < 26 && x+(directions[i]*j) > 0 &&
+                y+(directions[3-i]*j) < 12 && y+(directions[3-i]*j) > 0) {
+            if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != ' ')
+                if (directions[i] == 1 || directions[i] == -1)
+                    tuilesEnX++;
+                else
+                    tuilesEnY++;
+            else
+                break;
+            j++;
+        }
     }
 
     if (tuilesEnX != 0 && tuilesEnY != 0)
@@ -256,5 +251,5 @@ int calculPoints(t_tuile** plateau, int x, int y)
     points += tuilesEnX;
     points += tuilesEnY;
 
-    return points;
+    return points-1;
 }

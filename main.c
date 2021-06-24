@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <winver.h>
 
 #include "interfaces.h"
 #include "tuiles.h"
 #include "etatJeu.h"
 #include "plateau.h"
+#include "sauvegarde.h"
 
 #define _WIN32_WINNT 0x0500
 
@@ -28,22 +30,27 @@ int main()
     tailleConsole();
     enleverScrollBar();
     cacherCurseur();
-    int choixMenu = menuLancement();
 
-    switch (choixMenu) {
-        case 1:
-            preparationJeu();
-            break;
-        case 2:
-            break;
-        case 3:
-            emmaPrgm();
-            break;
-        case 4:
-            break;
-        case 5:
-            PostMessage(GetConsoleWindow(), WM_CLOSE, 0, 0);
-    }
+    int choixMenu;
+    do {
+        choixMenu = menuLancement();
+        switch (choixMenu) {
+            case 1:
+                preparationJeu();
+                break;
+            case 2:
+                menuSauvegardes();
+                break;
+            case 3:
+                reglesDuJeu();
+                break;
+            case 4:
+                afficherKb();
+                break;
+            case 5:
+                PostMessage(GetConsoleWindow(), WM_CLOSE, 0, 0);
+        }
+    } while (choixMenu != 5);
 
     return 0;
 }
