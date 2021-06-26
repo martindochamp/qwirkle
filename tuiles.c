@@ -11,7 +11,7 @@ void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de coul
     SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
 }
 
-void genererPioche(t_tuile* tuiles, int modeDeJeu)
+void genererPioche(t_tuile tuiles[108], int modeDeJeu)
 {
     //On crée toutes les tuiles dans l'ordre
     int lim = (modeDeJeu == 1) ? 3 : 1;
@@ -45,15 +45,14 @@ void genererPioche(t_tuile* tuiles, int modeDeJeu)
     }
 }
 
-void distribuerTuiles(t_tuile** mains, t_tuile* pioche, int nbJoueurs, int modeDeJeu, int* index) {
-    for (int i = 0; i < 6; i++)
-        for (int j = 0; j < nbJoueurs; j++) {
-            mains[j][i] = pioche[*index];
-            *index += 1;
-        }
+void distribuerTuiles(t_tuile main[6], t_tuile pioche[108], int* index) {
+    for (int i = 0; i < 6; i++) {
+        main[i] = pioche[*index];
+        *index += 1;
+    }
 }
 
-void afficherMainsJoueurs(t_tuile** mains, char** pseudos, int nbJoueurs) {
+void afficherMainsJoueurs(t_tuile mains[4][6], char pseudos[4][20], int nbJoueurs) {
     system("cls");
     printf("Mains des joueurs :\n\n");
     for (int i = 0; i < nbJoueurs; i++) {
@@ -77,7 +76,7 @@ void afficherDeck(t_tuile* tuiles)
     }
 }
 
-void remplacerTuile(t_tuile* tuile, t_tuile* pioche, int* index) {
+void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index) {
     tuile->couleur = pioche[*index].couleur;
     tuile->forme = pioche[*index].forme;
     *index += 1;

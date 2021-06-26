@@ -1,5 +1,7 @@
 #include "interfaces.h"
 #include "tuiles.h"
+#include "plateau.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -42,47 +44,6 @@ void ReglesJeu()
     printf("C. Echanger tout ou partie des tuiles de sa main contre differentes tuiles de la reserve, et passer son tour (sans jouer de tuile).\n\n");
     printf("Ajouter des tuiles a une ligne (ou colonne)\n"); //Couleur orange
     printf("Chacun a leur tour, les joueurs ajoutent des tuiles a la ligne creee au premier tour sans deborder l espace de jeu. Tous les coups joues doivent etre lies a la ligne existante.");
-}
-
-
-void afficherMenu()
-{
-    int ch1;
-    char key='q';
-
-    do{
-        system("cls");
-        printf("Bonjour et bienvenue dans le Qwirkle!\n");
-        printf("1. Consulter les regles du jeu\n");
-        printf("2. Demarrer une nouvelle partie\n");
-        printf("3. Reprendre une partie sauvegardee\n");
-        printf("4. Consulter l'ensemble des scores des joueurs\n");
-        printf("5. Quitter le jeu\n");
-        fflush(stdin);
-        scanf("%d", &ch1);
-
-    switch(ch1){
-        case 1:
-            printf("Pour retourner au menu principal, tapez q");
-            ReglesJeu();
-            if (kbhit()){
-                system("CLS");
-                afficherMenu();
-            }
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            printf("Au revoir et a bientot !");
-            break;
-        default :
-            printf("Faux");
-        }
-    }while((ch1<1)||(ch1>4));
 }
 
 void reglesDuJeu() {

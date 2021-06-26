@@ -49,6 +49,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="plateau.h" />
+		<Unit filename="sauvegarde.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sauvegarde.h" />
 		<Unit filename="tuiles.c">
 			<Option compilerVar="CC" />
 		</Unit>

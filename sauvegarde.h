@@ -3,20 +3,26 @@
 
 #include "tuiles.h"
 
+typedef struct Joueur {
+    bool humain;
+    char pseudo[20];
+    int score;
+    t_tuile main[6];
+} t_joueur;
+
 typedef struct Partie {
     int nbJoueur;
     int nbTour;
-    t_tuile** plateau;
-    t_tuile** mains;
-    t_tuile* pioche;
-    int* scores;
-    char** pseudos;
+    int modeDeJeu;
     int index;
+    t_joueur joueurs[4];
+    t_tuile plateau[26][12];
+    t_tuile pioche[108];
 } t_partie;
 
 void lancerPartie(t_partie partie);
-void chargerSauvegardes(t_partie* parties);
-void sauvegardeParties(t_partie partie);
+void chargerParties(t_partie* parties);
+void sauvegarderPartie(t_partie partie);
 void supprimerSauvegardes();
 void menuSauvegardes();
 

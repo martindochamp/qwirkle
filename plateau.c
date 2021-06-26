@@ -5,10 +5,11 @@
 
 #include "tuiles.h"
 #include "plateau.h"
+#include "sauvegarde.h"
 
-void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
-    plateau[x][y].couleur = main[tuile].couleur;
-    plateau[x][y].forme = main[tuile].forme;
+void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
+    plateau[x][y].couleur = tuile.couleur;
+    plateau[x][y].forme = tuile.forme;
 
     positionnerCurseur((x+1)*2 + MARGEX, y+1 + MARGEY);
     Color(plateau[x][y].couleur, 0);
@@ -16,12 +17,30 @@ void jouerPlacement(t_tuile** plateau, t_tuile* main, int tuile, int x, int y) {
     Color(15, 0);
 }
 
-bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, int x, int y, int coup) {
+bool placementValide(t_tuile plateau[26][12], char* erreur, t_tuile main[6], int tuile, int x, int y, int coup) {
     //Le premier coup est toujours bon
     if (coup == 0)
         return true;
 
+    if (plateau[x][y].forme != ' ')
+        return false;
+
     int directions[4] = {1, -1, 0, 0};
+
+    //Vérification si la tuile n'est pas isolée
+    int tuileCotes = 0;
+    for (int i = 0; i < 4; i++) {
+        if (x+directions[i] < 26 && x+directions[i] > 0 &&
+           y+directions[3-i] < 12 && y+directions[3-i] > 0) {
+            if (plateau[x+directions[i]][y+directions[3-i]].forme != ' ') {
+                tuileCotes++;
+            }
+        }
+    }
+
+    if (tuileCotes == 0)
+        return false;
+
     bool couleurPresente = false, formePresente = false, couleurDifferente = false, formeDifferente = false;
 
     for (int i = 0; i < 4; i++) {
@@ -50,7 +69,7 @@ bool placementValide(t_tuile** plateau, char* erreur, t_tuile* main, int tuile, 
     return false;
 }
 
-void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
+void recupererPlacement(t_tuile main[6], int* tuile, int* coordsX, int* coordsY){
     int tuileTemp = -1;
     int x = -1;
     int y = -1;
@@ -106,15 +125,7 @@ void recupererPlacement(t_tuile* main, int* tuile, int* coordsX, int* coordsY) {
     *coordsY = y;
 }
 
-void initialiserPlateau(t_tuile** plateau) {
-    for (int i = 0; i < COLONNES; i++)
-        for (int j = 0; j < LIGNES; j++) {
-            plateau[i][j].couleur = 0;
-            plateau[i][j].forme = ' ';
-        }
-}
-
-void afficherMain(t_tuile** mains, char** pseudos, int joueur) {
+void afficherMain(t_joueur joueur) {
 
     //Supprime l'ancienne phrase
     for (int i = 0; i < 50; i++) {
@@ -124,7 +135,7 @@ void afficherMain(t_tuile** mains, char** pseudos, int joueur) {
 
     positionnerCurseur(MARGEX, 2);
     Color(15, 0);
-    printf("%s ", *(pseudos+joueur));
+    printf("%s ", joueur.pseudo);
     Color(7, 0);
     printf("%c vous de jouer !", 0x85);
 
@@ -134,8 +145,8 @@ void afficherMain(t_tuile** mains, char** pseudos, int joueur) {
 
     //Affichage tuiles joueurs
     for (int i = 0; i < 6; i++) {
-        Color(mains[joueur][i].couleur, 0);
-        printf("%c ", mains[joueur][i].forme);
+        Color(joueur.main[i].couleur, 0);
+        printf("%c ", joueur.main[i].forme);
     }
 }
 
@@ -183,8 +194,7 @@ void afficherBordure() {
     printf("%c", 0xBC);
 }
 
-void afficherPlateau(t_tuile** plateau) {
-    initialiserPlateau(plateau);
+void afficherPlateau(t_tuile plateau[26][12]) {
     system("cls");
     positionnerCurseur(MARGEX, MARGEY);
 
@@ -216,8 +226,7 @@ void positionnerCurseur(int x, int y){
     SetConsoleCursorPosition(GetStdHandle( STD_OUTPUT_HANDLE ), coords);
 }
 
-int calculPoints(t_tuile** plateau, int x, int y)
-{
+int calculPoints(t_tuile plateau[26][12], int x, int y) {
     int points = 0, tuilesEnX = 0, tuilesEnY = 0;
     int directions[4] = {1, -1, 0, 0};
 

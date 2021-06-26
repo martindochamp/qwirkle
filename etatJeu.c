@@ -11,49 +11,128 @@
 
 int demanderModeDeJeu();
 int demanderNombreJoueur();
-void demanderPseudos(int nbJoueurs, char** pseudos);
-void afficherPseudos(int nbJoueurs, char** pseudos);
+void demanderPseudos(t_joueur joueurs[4], int joueurHumain);
+void afficherPseudos(int nbJoueurs, char pseudos[4][20]);
 void lancementJeu(int nbJoueurs, char** pseudos, int modeDeJeu);
 void afficherErreur(char* erreur);
-void afficherPoints();
+int demanderTypeJoueur(int nbJoueur);
+
+int demanderTypeJoueur(int nbJoueur) {
+    char nombres[4][40] = {
+        {
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        },{
+        0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBB,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        0xC9,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBC,
+        0xBA,' ',' ',' ',' ',' ',' ',' ',
+        0xC8,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD
+        },
+        {
+        0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBB,
+        ' ',' ',' ',' ',' ',' ',' ', 0xBA,
+        ' ',0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xB9,
+        ' ',' ',' ',' ',' ',' ',' ',0xBA,
+        0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xBC
+        },
+        {
+        0xBA,' ',' ',' ',' ',' ',' ',0xBA,
+        0xBA,' ',' ',' ',' ',' ',' ', 0xBA,
+        0xC8,0xCD,0xCD,0xCD,0xCD,0xCD,0xCD,0xB9,
+        ' ',' ',' ',' ',' ',' ',' ',0xBA,
+        ' ',' ',' ',' ',' ',' ',' ',0xBA
+        },
+    };
+
+    int joueurHumain = 1;
+    int res;
+
+    system("cls");
+    positionnerCurseur(55, 13);
+    Color(15, 0);
+    printf("Nombre de joueur réel ?");
+    Color(7, 0);
+    positionnerCurseur(55, 14);
+    printf("Les autres seront des bots.", 0x1E, 0x8A);
+    positionnerCurseur(55, 15);
+    printf("%c Augmenter avec les fl%cches", 0x1E, 0x8A);
+    positionnerCurseur(55, 16);
+    printf("%c Valider avec entr%ce", 0x1F, 0x82);
+    positionnerCurseur(60, 0);
+
+    do {
+        if (res == 80 && joueurHumain > 1)
+            joueurHumain--;
+        if (res == 72 && joueurHumain < nbJoueur)
+            joueurHumain++;
+
+        int index = 0;
+        Color(6, 0);
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 8; j++) {
+                positionnerCurseur(44+j, 12+i);
+                printf("%c", nombres[joueurHumain-2][index]);
+                index++;
+            }
+
+        while(!kbhit());
+        res = getch();
+    } while(res != 13);
+    return joueurHumain;
+}
 
 void preparationJeu() {
     int modeDeJeu = demanderModeDeJeu();
     int nbJoueurs = demanderNombreJoueur();
+    int joueurHumain = demanderTypeJoueur(nbJoueurs);
 
-    char** pseudos = (char**) malloc(nbJoueurs*sizeof(char*));
-    demanderPseudos(nbJoueurs, pseudos);
+    t_joueur joueurs[4];
+    demanderPseudos(joueurs, joueurHumain);
+
+    //On génére le pseudo des joueurs non humains
+    char pseudosAleas[10][20] = {
+        "Jean", "Mathieu", "Emilie", "Damien", "Fred",
+        "Guillaume", "Rose", "Ambre", "Camille", "Ryujin"
+    };
+
+    srand(time(NULL));
+    for (int i = joueurHumain-1; i < nbJoueurs; i++) {
+        strcpy(joueurs[i].pseudo, pseudosAleas[rand() % 10]);
+        joueurs[i].humain = false;
+    }
 
     //Récupération de toutes les données pour créer la partie
 
     //On génère la pioche en fonction du mode de jeu, puis on mélange les tuiles
-    t_tuile* pioche = (t_tuile*) malloc((modeDeJeu == 1 ? 108 : 36)*sizeof(t_tuile));
+    t_tuile pioche[108];
     genererPioche(pioche, modeDeJeu);
 
     //Distribution des tuiles dans la main
-    t_tuile** mains = (t_tuile**) malloc(nbJoueurs*sizeof(t_tuile*));
-    for (int i = 0; i < nbJoueurs; i++)
-        mains[i] = (t_tuile*) malloc(6*sizeof(t_tuile));
-
     int index = 0;
-    distribuerTuiles(mains, pioche, nbJoueurs, modeDeJeu, &index);
+    for (int i = 0; i < nbJoueurs; i++) {
+        distribuerTuiles(joueurs[i].main, pioche, &index);
+        joueurs[i].score = 0;
+    }
 
-    t_tuile** plateau = (t_tuile**) malloc(COLONNES*sizeof(t_tuile*));
+    t_tuile plateau[26][12];
+
     for (int i = 0; i < COLONNES; i++)
-        plateau[i] = (t_tuile*) malloc(LIGNES*sizeof(t_tuile));
-
-    int* scores = (int*) malloc(nbJoueurs*sizeof(int));
-    for (int i = 0; i < nbJoueurs; i++)
-        scores[i] = 0;
+        for (int j = 0; j < LIGNES; j++) {
+            plateau[i][j].couleur = 0;
+            plateau[i][j].forme = ' ';
+        }
 
     t_partie nouvellePartie;
-    nouvellePartie.pioche = pioche;
-    nouvellePartie.mains = mains;
+    memcpy(nouvellePartie.joueurs, joueurs, sizeof(nouvellePartie.joueurs));
+    memcpy(nouvellePartie.pioche, pioche, sizeof(nouvellePartie.pioche));
+    memcpy(nouvellePartie.plateau, plateau, sizeof(nouvellePartie.plateau));
+
     nouvellePartie.index = index;
-    nouvellePartie.plateau = plateau;
-    nouvellePartie.scores = scores;
     nouvellePartie.nbTour = 0;
-    nouvellePartie.pseudos = pseudos;
     nouvellePartie.nbJoueur = nbJoueurs;
 
     lancerPartie(nouvellePartie);
@@ -170,7 +249,7 @@ int demanderNombreJoueur() {
     return nbJoueur;
 }
 
-void demanderPseudos(int nbJoueurs, char** pseudos) {
+void demanderPseudos(t_joueur joueurs[4], int joueurHumain) {
     system("cls");
 
     Color(7, 0);
@@ -183,15 +262,15 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
     printf("%c Pour valider utiliser la touche entr%ce", 0xFE, 0x82);
 
     //On demande les pseudos des joueurs
-    for (int i = 0; i < nbJoueurs; i++) {
-        positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3);
+    for (int i = 0; i < joueurHumain; i++) {
+        positionnerCurseur(50, 14 - (joueurHumain*2 /3) + (i-1)*3);
         Color(11, 0);
         printf("%c%c ", 0xCD, 0xCD);
         Color(15, 0);
         printf("Joueur %d", i+1);
         Color(11, 0);
         printf(" %c%c", 0xCD, 0xCD);
-        positionnerCurseur(50, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
+        positionnerCurseur(50, 14 - (joueurHumain*2 /3) + (i-1)*3 + 1);
         Color(7, 0);
         int res;
         int nbChar = 0;
@@ -201,7 +280,7 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
             //Système de blindage et d'écriture de pseudo
             if((res >= 'a' && res <= 'z') || (res >= 'A' && res <= 'Z') || res == ' ') {
                 if (nbChar < 19) {
-                    positionnerCurseur(50 + nbChar, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
+                    positionnerCurseur(50 + nbChar, 14 - (joueurHumain*2 /3) + (i-1)*3 + 1);
                     printf("%c", res);
                     pseudo[nbChar] = res;
                     nbChar++;
@@ -209,7 +288,7 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
             }
 
             if (res == 8 && nbChar >= 0) {
-                positionnerCurseur(50 + nbChar-1, 14 - (nbJoueurs*2 /3) + (i-1)*3 + 1);
+                positionnerCurseur(50 + nbChar-1, 14 - (joueurHumain*2 /3) + (i-1)*3 + 1);
                 printf(" ");
                 pseudo[nbChar] = ' ';
                 if (nbChar > 0)
@@ -218,12 +297,12 @@ void demanderPseudos(int nbJoueurs, char** pseudos) {
             while (!kbhit());
             res = getch();
         } while(!(res == 13 && strlen(pseudo) >= 2));
-        pseudos[i] = (char*) malloc((strlen(pseudo)+1)*sizeof(char));
-        strcpy(pseudos[i], pseudo);
+        strcpy(joueurs[i].pseudo, pseudo);
+        joueurs[i].humain = true;
     }
 }
 
-void afficherPoints(int* scores, char** pseudos, int nbJoueur){
+void afficherPoints(t_joueur joueurs[4], int nbJoueur) {
     //On efface la zone de scores
     for (int i = 0; i < 5; i++)
         for (int j = 0; j < 40; j++) {
@@ -242,13 +321,13 @@ void afficherPoints(int* scores, char** pseudos, int nbJoueur){
     for (int i = 0; i < nbJoueur; i++) {
         positionnerCurseur(10, 21+i);
         Color(15, 0);
-        printf("- %s ", pseudos[i]);
+        printf("- %s ", joueurs[i].pseudo);
         Color(7, 0);
-        printf("%d", scores[i]);
+        printf("%d", joueurs[i].score);
     }
 }
 
-void afficherPseudos(int nbJoueurs, char** pseudos) {
+void afficherPseudos(int nbJoueurs, char pseudos[4][20]) {
     system("cls");
     for (int i = 0; i < nbJoueurs; i++)
         printf("- %s\n", &pseudos[i][0]);
@@ -264,9 +343,4 @@ void afficherErreur(char* erreur) {
     Color(12, 0);
     printf("%s", erreur);
     Color(15, 0);
-}
-
-
-void partiesSauvegardes() {
-
 }
