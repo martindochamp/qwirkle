@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <time.h>
 
 #include "etatJeu.h"
 #include "tuiles.h"
@@ -54,10 +55,10 @@ int demanderTypeJoueur(int nbJoueur) {
     system("cls");
     positionnerCurseur(55, 13);
     Color(15, 0);
-    printf("Nombre de joueur réel ?");
+    printf("Nombre de joueur r%cel ?", 0x82);
     Color(7, 0);
     positionnerCurseur(55, 14);
-    printf("Les autres seront des bots.", 0x1E, 0x8A);
+    printf("Les autres seront des bots.");
     positionnerCurseur(55, 15);
     printf("%c Augmenter avec les fl%cches", 0x1E, 0x8A);
     positionnerCurseur(55, 16);
@@ -75,7 +76,7 @@ int demanderTypeJoueur(int nbJoueur) {
         for (int i = 0; i < 5; i++)
             for (int j = 0; j < 8; j++) {
                 positionnerCurseur(44+j, 12+i);
-                printf("%c", nombres[joueurHumain-2][index]);
+                printf("%c", nombres[joueurHumain-1][index]);
                 index++;
             }
 
@@ -99,9 +100,21 @@ void preparationJeu() {
         "Guillaume", "Rose", "Ambre", "Camille", "Ryujin"
     };
 
+    int pseudosUtilises[4] = {-1, -1, -1, -1};
     srand(time(NULL));
-    for (int i = joueurHumain-1; i < nbJoueurs; i++) {
-        strcpy(joueurs[i].pseudo, pseudosAleas[rand() % 10]);
+    for (int i = joueurHumain; i < nbJoueurs; i++) {
+        int alea;
+        bool pseudoValide = true;
+        do {
+            alea = rand() % 10;
+            for (int j = 0; j < 4; j++) {
+                if (pseudosUtilises[j] == alea)
+                    pseudoValide = false;
+            }
+        } while (!pseudoValide);
+
+        pseudosUtilises[i] = alea;
+        strcpy(joueurs[i].pseudo, pseudosAleas[alea]);
         joueurs[i].humain = false;
     }
 

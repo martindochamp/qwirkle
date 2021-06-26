@@ -17,7 +17,7 @@ void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
     Color(15, 0);
 }
 
-bool placementValide(t_tuile plateau[26][12], char* erreur, t_tuile main[6], int tuile, int x, int y, int coup) {
+bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int coup) {
     //Le premier coup est toujours bon
     if (coup == 0)
         return true;
@@ -48,13 +48,13 @@ bool placementValide(t_tuile plateau[26][12], char* erreur, t_tuile main[6], int
         while (x+(directions[i]*j) < 26 && x+(directions[i]*j) > 0 &&
                 y+(directions[3-i]*j) < 12 && y+(directions[3-i]*j) > 0) {
             if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != ' ') {
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur == main[tuile].couleur)
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur == tuile.couleur)
                     couleurPresente = true;
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme == main[tuile].forme)
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme == tuile.forme)
                     formePresente = true;
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur != main[tuile].couleur)
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur != tuile.couleur)
                     couleurDifferente = true;
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != main[tuile].forme)
+                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != tuile.forme)
                     formeDifferente = true;
             } else
                 break;
@@ -70,59 +70,57 @@ bool placementValide(t_tuile plateau[26][12], char* erreur, t_tuile main[6], int
 }
 
 void recupererPlacement(t_tuile main[6], int* tuile, int* coordsX, int* coordsY){
-    int tuileTemp = -1;
-    int x = -1;
-    int y = -1;
+    int x = 0;
+    int y = 0;
 
-    //On supprime la barre de côté
-    for (int i = 0; i < 40; i++)
-        for (int j = 0; j < 8; j++) {
-            positionnerCurseur(70+i, 8+j);
-            printf(" ");
-        }
-
-    positionnerCurseur(70, 8);
-    Color(11, 0);
-    printf("Quelle tuile voulez-vous jouer ?");
-    Color(15, 0);
-    positionnerCurseur(70, 9);
-
+    //Demande tuile à jouer
+    int res;
+    int tuileSelectionne = 1;
     do {
-        while(!kbhit());
-        tuileTemp = getch();
-    } while (!(tuileTemp >= 49 && tuileTemp <= 55));
+        if (res == 75 && tuileSelectionne > 1)
+            tuileSelectionne--;
+        if (res ==  77 && tuileSelectionne < 6)
+            tuileSelectionne++;
+        positionnerCurseur(70 + (tuileSelectionne-1)*2, 6);
+        HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO info;
+        info.dwSize = 10;
+        info.bVisible = TRUE;
+        SetConsoleCursorInfo(consoleHandle, &info);
+        while (!kbhit());
+        res = getch();
+    } while (res != 13);
 
-    char strtest[30];
-    retournerNomTuile(main[tuileTemp-49], strtest);
-    printf("%s", strtest);
-
-    positionnerCurseur(70, 11);
-    Color(11, 0);
-    printf("Quelle colonne ?");
-    Color(15, 0);
-    positionnerCurseur(70, 12);
-
+    //Demande placement curseur sur plateau
     do {
-        while(!kbhit());
-        x = getch();
-    } while (!(x >= 'a' && x <= 'z'));
-    printf(" - %c ", x);
+        if (res == 75 && x > 0)
+            x--;
+        if (res ==  77 && x < 25)
+            x++;
+        if (res == 72 && y > 0)
+            y--;
+        if (res ==  80 && y < 11)
+            y++;
 
-    positionnerCurseur(70, 14);
-    Color(11, 0);
-    printf("Quelle ligne ?");
-    Color(15, 0);
-    positionnerCurseur(70, 15);
+        positionnerCurseur((x+1)*2 + MARGEX, y+1 + MARGEY);
+        HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO info;
+        info.dwSize = 10;
+        info.bVisible = TRUE;
+        SetConsoleCursorInfo(consoleHandle, &info);
+        while (!kbhit());
+        res = getch();
+    } while (res != 13);
 
-    do {
-        while(!kbhit());
-        y = getch();
-    } while (!(y >= 'A' && y <= 'L'));
-    printf(" - %c ", y);
-
-    *tuile = tuileTemp-49;
+    *tuile = tuileSelectionne-1;
     *coordsX = x;
     *coordsY = y;
+
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 10;
+    info.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &info);
 }
 
 void afficherMain(t_joueur joueur) {

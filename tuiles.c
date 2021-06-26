@@ -5,6 +5,27 @@
 #include <time.h>
 #include <string.h>
 
+/*
+    - Demander au joueur les tuile qui veut échanger
+    - Les échanger si il en reste dans la pioche
+*/
+
+/*void echangerTuile(t_tuile main[6]) //
+{
+    positionnerCurseur(60,60);
+    Color(11,0);
+    printf("Echanger des tuiles? Combien?");
+
+    do{
+        while(!kbhit());
+        touche = getch();
+    }while(!(touche>=49 && touche<=54));
+
+    for (int i=0; i<touche; i++){
+        remplacerTuile(tuile, pioche, index);
+    }
+}*/
+
 void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de couleurs
 {
     HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
@@ -64,7 +85,6 @@ void afficherMainsJoueurs(t_tuile mains[4][6], char pseudos[4][20], int nbJoueur
         }
         printf("\n");
     }
-
 }
 
 void afficherDeck(t_tuile* tuiles)

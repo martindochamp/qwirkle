@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <windows.h>
+
 #include "sauvegarde.h"
 #include "plateau.h"
 #include "tuiles.h"
 #include "etatJeu.h"
+#include "ia.h"
 
 void menuSauvegardes() {
     system("cls");
@@ -35,7 +36,7 @@ void menuSauvegardes() {
             printf(" %c%c%c", 0xCD, 0xCD, 0xCD);
             positionnerCurseur(35, 7+(i*2));
             Color(15, 0);
-            printf("Joueurs : %s", parties[i].modeDeJeu);
+            printf("Joueurs : ");
             Color(7, 0);
             for (int j = 0; j < parties[i].nbJoueur; j++) {
                 printf("%s ", parties[i].joueurs[j].pseudo);
@@ -67,10 +68,8 @@ void sauvegarderPartie(t_partie partie) {
 
     fp = fopen ("parties.dat", "wb");
 
-    if (fp == NULL) {
-        fprintf(stderr, "\nErreur d'ouverture de fichier\n");
+    if (fp == NULL)
         exit(1);
-    }
 
     fwrite(&partie, sizeof(t_partie), 1, fp);
 
@@ -83,10 +82,8 @@ void chargerParties(t_partie* parties) {
 
     fp = fopen ("parties.dat", "rb");
 
-    if (fp == NULL) {
-        fprintf(stderr, "\nErreur d'ouverture de fichier\n");
+    if (fp == NULL)
         exit(1);
-    }
 
     while (fread(parties, sizeof(t_partie), 1, fp) != NULL);
 
@@ -100,24 +97,31 @@ void lancerPartie(t_partie partie) {
     bool finJeu = false;
 
     while (!finJeu) {
-        afficherMain(partie.joueurs[partie.nbTour % partie.nbJoueur]);
-
-        int tuile = 0;
-        int coordsX = 0;
-        int coordsY = 0;
-
-        char erreur[30] = {0};
-
-        afficherPoints(partie.joueurs, partie.nbJoueur);
         int tourJoueur = partie.nbTour % partie.nbJoueur;
-        do {
-            //afficherErreur(erreur);
-            recupererPlacement(partie.joueurs[tourJoueur].main, &tuile, &coordsX, &coordsY);
-        } while(!placementValide(partie.plateau, erreur, partie.joueurs[tourJoueur].main, tuile, coordsX-97, coordsY-65, partie.nbTour));
+        if (partie.joueurs[tourJoueur].humain) {
+            afficherMain(partie.joueurs[partie.nbTour % partie.nbJoueur]);
 
-        jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX-97, coordsY-65);
-        remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index);
-        partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, coordsX-97, coordsY-65);
+            int tuile = 0;
+            int coordsX = 0;
+            int coordsY = 0;
+
+            afficherPoints(partie.joueurs, partie.nbJoueur);
+
+            do {
+                recupererPlacement(partie.joueurs[tourJoueur].main, &tuile, &coordsX, &coordsY);
+            } while(!placementValide(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX-97, coordsY-65, partie.nbTour));
+
+            jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX-97, coordsY-65);
+            remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index);
+            partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, coordsX-97, coordsY-65);
+        } else {
+            //Le joueur n'est pas humain
+            int x, y, numeroTuile;
+            testerCoups(partie.plateau, partie.joueurs[tourJoueur].main, &x, &y, &numeroTuile, partie.nbTour);
+            jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[numeroTuile], x, y);
+            remplacerTuile(&partie.joueurs[tourJoueur].main[numeroTuile], partie.pioche, &partie.index);
+            partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, x, y);
+        }
 
         if (((partie.nbTour+1) % partie.nbJoueur == 0) && partie.nbTour != 0) {
             positionnerCurseur(60, 20);
@@ -132,7 +136,6 @@ void lancerPartie(t_partie partie) {
             } while (!(saisie == 49 || saisie == 50));
 
             if (saisie == 50) {
-
                 positionnerCurseur(60, 20);
                 Color(11, 0);
                 printf("1. Sauvegarder");
@@ -148,17 +151,9 @@ void lancerPartie(t_partie partie) {
                 if (saisie2 == 49) {
                     sauvegarderPartie(partie);
                 }
-
-                /*free(partie.mains);
-                free(partie.pioche);
-                free(partie.plateau);
-                free(partie.pseudos);
-                free(partie.scores);*/
             }
         }
-
         partie.nbTour += 1;
     }
 }
-
 

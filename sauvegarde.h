@@ -2,6 +2,7 @@
 #define SAUVEGARDE_H_INCLUDED
 
 #include "tuiles.h"
+#include <stdbool.h>
 
 typedef struct Joueur {
     bool humain;
@@ -20,10 +21,11 @@ typedef struct Partie {
     t_tuile pioche[108];
 } t_partie;
 
-void lancerPartie(t_partie partie);
 void chargerParties(t_partie* parties);
 void sauvegarderPartie(t_partie partie);
 void supprimerSauvegardes();
 void menuSauvegardes();
+
+void lancerPartie(t_partie partie);
 
 #endif // SAUVEGARDE_H_INCLUDED
