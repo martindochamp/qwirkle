@@ -107,13 +107,109 @@ void lancerPartie(t_partie partie) {
 
             afficherPoints(partie.joueurs, partie.nbJoueur);
 
+            int res;
+            int selection = 1;
             do {
-                recupererPlacement(partie.joueurs[tourJoueur].main, &tuile, &coordsX, &coordsY);
-            } while(!placementValide(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX-97, coordsY-65, partie.nbTour));
+                if (res == 72 && selection > 1)
+                    selection--;
+                if (res == 80 && selection < 2)
+                    selection++;
 
-            jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX-97, coordsY-65);
-            remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index);
-            partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, coordsX-97, coordsY-65);
+                positionnerCurseur(70, 8);
+                Color(15, 0);
+                printf("Que voulez-vous faire ?");
+
+                for (int i = 0; i < 2; i++)
+                    for (int j = 0; j < 20; j++) {
+                        positionnerCurseur(70+j, 10+i);
+                        printf(" ");
+                    }
+
+                if (selection == 1) {
+                    positionnerCurseur(70, 10);
+                    Color(11, 0);
+                    printf("%c %c ", 0x03, 0x04);
+                    Color(15, 0);
+                    printf("Poser tuiles");
+                    positionnerCurseur(74, 11);
+                    Color(7, 0);
+                    printf("Echanger tuiles");
+                } else {
+                    positionnerCurseur(74, 10);
+                    Color(7, 0);
+                    printf("Poser tuiles");
+                    positionnerCurseur(70, 11);
+                    Color(11, 0);
+                    printf("%c %c ", 0x03, 0x04);
+                    Color(15, 0);
+                    printf("Echanger tuiles");
+                }
+                while(!kbhit());
+                res = getch();
+            } while (res != 13);
+
+            if (selection == 1) {
+                do {
+                    recupererPlacement(partie.joueurs[tourJoueur].main, &tuile, &coordsX, &coordsY);
+                } while(!placementValide(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY, partie.nbTour));
+
+                jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY);
+                remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index);
+                partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, coordsX, coordsY);
+            } else {
+                //Echange de tuile
+                for (int i = 0; i < 5; i++)
+                    for (int j = 0; j < 30; j++) {
+                        positionnerCurseur(70+j, 8+i);
+                        printf(" ");
+                    }
+
+                positionnerCurseur(70, 8);
+                Color(15, 0);
+                printf("Quelles tuiles ?");
+
+                int tuilesSelectionnees[6] = {0};
+                //Récupération tuile d'échange
+                do {
+                    int saisie;
+
+                    int tuileSelectionne = 1;
+                    do {
+                        if (saisie == 75 && tuileSelectionne > 1)
+                            tuileSelectionne--;
+                        if (saisie  ==  77 && tuileSelectionne < 6)
+                            tuileSelectionne++;
+                        positionnerCurseur(70 + (tuileSelectionne-1)*2, 6);
+                        HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+                        CONSOLE_CURSOR_INFO info;
+                        info.dwSize = 10;
+                        info.bVisible = TRUE;
+                        SetConsoleCursorInfo(consoleHandle, &info);
+                        while (!kbhit());
+                        saisie = getch();
+                    } while (saisie != 13);
+
+
+                    for (int i = 0; i < 6; i++) {
+                        if (tuilesSelectionnees[i] == tuileSelectionne) {
+                            tuilesSelectionnees[i] = 0;
+                        } else if (tuilesSelectionnees[i] == 0) {
+                            tuilesSelectionnees[i] = tuileSelectionne;
+                            break;
+                        }
+                    }
+
+                    while (!kbhit());
+                    res = getch();
+                } while (res != 13);
+
+                for (int i = 0; i < 6; i++) {
+                    //On échange les tuiles demandées
+                    if (tuilesSelectionnees[i] != 0) {
+                        echangerTuile(&partie.joueurs[tourJoueur].main[tuilesSelectionnees[i]-1], partie.pioche, partie.index, partie.modeDeJeu);
+                    }
+                }
+            }
         } else {
             //Le joueur n'est pas humain
             int x, y, numeroTuile;

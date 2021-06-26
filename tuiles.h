@@ -25,4 +25,6 @@ void distribuerTuiles(t_tuile main[6], t_tuile pioche[108], int* index);
 
 void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index);
 
+void echangerTuile(t_tuile* tuile, t_tuile pioche[108], int index, int modeDeJeu);
+
 #endif // TUILES_H_INCLUDED

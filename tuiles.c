@@ -102,6 +102,19 @@ void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index) {
     *index += 1;
 }
 
+void echangerTuile(t_tuile* tuile, t_tuile pioche[108], int index, int modeDeJeu) {
+    t_tuile tuileAEchanger;
+    tuileAEchanger.couleur = tuile->couleur;
+    tuileAEchanger.forme = tuile->forme;
+
+    //Mélange pioche avant d'échanger
+    int alea = rand() % (modeDeJeu == 1 ? 108 : 36) + index;
+    tuile->couleur = pioche[alea].couleur;
+    tuile->forme = pioche[alea].forme;
+    pioche[alea] = tuileAEchanger;
+
+}
+
 void prgmTuiles() {
     system("cls");
     t_tuile* tuiles = (t_tuile*) malloc(36*sizeof(t_tuile));

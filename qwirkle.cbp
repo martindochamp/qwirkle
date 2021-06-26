@@ -35,6 +35,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="etatJeu.h" />
+		<Unit filename="ia.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ia.h" />
 		<Unit filename="icon.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
@@ -45,6 +49,8 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="obj/Debug/icon.res" />
+		<Unit filename="obj/Debug/resources.res" />
 		<Unit filename="plateau.c">
 			<Option compilerVar="CC" />
 		</Unit>

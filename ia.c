@@ -25,6 +25,7 @@ void testerCoups(t_tuile plateau[26][12], t_tuile main[6], int* x, int* y, int* 
                             meilleurCoup.point = point;
                         }
                     }
+
     *x = meilleurCoup.x;
     *y = meilleurCoup.y;
     *tuile = meilleurCoup.numeroTuile;

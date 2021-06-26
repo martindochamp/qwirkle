@@ -96,8 +96,8 @@ void preparationJeu() {
 
     //On génére le pseudo des joueurs non humains
     char pseudosAleas[10][20] = {
-        "Jean", "Mathieu", "Emilie", "Damien", "Fred",
-        "Guillaume", "Rose", "Ambre", "Camille", "Ryujin"
+        "Ryujin", "Mathieu", "Emilie", "Damien", "Fred",
+        "Guillaume", "Rose", "Ambre", "Camille", "Jean"
     };
 
     int pseudosUtilises[4] = {-1, -1, -1, -1};

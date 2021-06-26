@@ -17,6 +17,91 @@ void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
     Color(15, 0);
 }
 
+bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y, int coup) {
+    if (coup == 0)
+        return true;
+
+    bool placementEnX = true;
+    bool placementEnY = true;
+
+    //Test en X
+    if (p[x+1][y].forme != ' ' || p[x-1][y].forme != ' ') {
+        if (p[x+1][y].couleur == tuile.couleur || p[x-1][y].couleur == tuile.couleur) {
+            int j = 1;
+            while (p[x+j][y].forme != ' ') {
+                if (p[x+j][y].forme == tuile.forme || p[x+j][y].forme != p[x+j-1][y].forme)
+                    placementEnX = false;
+                j++;
+            }
+            j = 1;
+
+            while (p[x-j][y].forme != ' ') {
+                if (p[x-j][y].forme == tuile.forme || p[x-j][y].forme != p[x-j+1][y].forme)
+                    placementEnX = false;
+                j++;
+            }
+        } else if (p[x+1][y].forme == tuile.forme || p[x-1][y].forme == tuile.forme) {
+            int j = 1;
+            while (p[x+j][y].forme != ' ') {
+                if (p[x+j][y].couleur == tuile.couleur || p[x+j][y].forme != p[x+j-1][y].forme)
+                    placementEnX = false;
+                j++;
+            }
+            j = 1;
+
+            while (p[x-j][y].forme != ' ') {
+                if (p[x-j][y].couleur == tuile.couleur || p[x-j][y].couleur != p[x-j+1][y].couleur)
+                    placementEnX = false;
+                j++;
+            }
+        } else {
+            placementEnX = false;
+        }
+    }
+
+    //Test en Y
+    if (p[x][y+1].forme != ' ' || p[x][y-1].forme != ' ') {
+        if (p[x][y+1].couleur == tuile.couleur || p[x][y-1].couleur == tuile.couleur) {
+            int j = 1;
+            while (p[x][y+j].forme != ' ') {
+                if (p[x][y+j].forme == tuile.forme || p[x][y+j].forme != p[x][y+j-1].forme)
+                    placementEnY = false;
+                j++;
+            }
+            j = 1;
+
+            while (p[x][y-j].forme != ' ') {
+                if (p[x][y-j].forme == tuile.forme || p[x][y-j].forme != p[x][y-j+1].forme)
+                    placementEnY = false;
+                j++;
+            }
+        } else if (p[x][y+1].forme == tuile.forme || p[x][y-1].forme == tuile.forme) {
+            int j = 1;
+            while (p[x][y+j].forme != ' ') {
+                if (p[x][y+j].couleur == tuile.couleur || p[x][y+j].couleur != p[x][y+j-1].couleur)
+                    placementEnY = false;
+                j++;
+            }
+            j = 1;
+
+            while (p[x][y-j].forme != ' ') {
+                if (p[x][y-j].couleur == tuile.couleur || p[x][y-j].couleur != p[x][y-j+1].couleur)
+                    placementEnY = false;
+                j++;
+            }
+        } else {
+            placementEnX = false;
+        }
+    }
+
+    if (placementEnX && placementEnY) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
 bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int coup) {
     //Le premier coup est toujours bon
     if (coup == 0)
@@ -45,6 +130,7 @@ bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int c
 
     for (int i = 0; i < 4; i++) {
         int j = 1;
+        couleurDifferente = true;
         while (x+(directions[i]*j) < 26 && x+(directions[i]*j) > 0 &&
                 y+(directions[3-i]*j) < 12 && y+(directions[3-i]*j) > 0) {
             if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != ' ') {
@@ -62,8 +148,7 @@ bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int c
         }
     }
 
-    if (((couleurDifferente && !formeDifferente) || (!couleurDifferente && formeDifferente))
-        && (formePresente || couleurPresente))
+    if (((couleurDifferente && !formeDifferente) || (!couleurDifferente&& formeDifferente)) && (formePresente || couleurPresente))
         return true;
 
     return false;
