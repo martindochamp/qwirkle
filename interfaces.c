@@ -6,6 +6,68 @@
 #include <stdlib.h>
 #include <windows.h>
 
+void menuFinDeJeu(t_partie partie) {
+    system("cls");
+    positionnerCurseur(50, 8);
+    Color(11, 0);
+    printf("%c%c%c", 0xCD, 0xCD, 0xCD);
+
+    Color(15, 0);
+    printf(" Fin du jeu ");
+
+    Color(11, 0);
+    printf("%c%c%c", 0xCD, 0xCD, 0xCD);
+
+    //Affichage classement
+    int scores[4][2];
+    for (int i = 0; i < 4; i++) {
+        scores[i][0] = i;
+        scores[i][1] = partie.joueurs[i].score;
+    }
+
+    //Trier scores
+    for (int i = 0; i < 3; i ++){
+        for (int j = 0; j < 3-i; j++) {
+            if (scores[j][1] < scores[j+1][1]){
+                int tempScore = scores[j][1];
+                int tempId = scores[j][0];
+
+                scores[j][1] = scores[j+1][1];
+                scores[j][0] = scores[j+1][0];
+
+                scores[j+1][1] = tempScore;
+                scores[j+1][0] = tempId;
+            }
+        }
+    }
+
+    int couleursMedaille[4] = {6, 7, 12, 8};
+    //Affichage pseudo score
+    for (int i = 0; i < partie.nbJoueur; i++) {
+        if (scores[i][1] != 0) {
+            positionnerCurseur(52, 10+i);
+            Color(7, 0);
+            printf(" - ");
+            Color(couleursMedaille[i], 0);
+            printf("%s", partie.joueurs[scores[i][0]].pseudo);
+            Color(7, 0);
+            printf(" | %d", partie.joueurs[scores[i][0]].score);
+        }
+    }
+
+    positionnerCurseur(41, 18);
+    Color(15, 0);
+    printf("Appuyer sur entr%ce pour revenir au menu", 0x82);
+
+
+    int res;
+    do {
+        while (!kbhit());
+        res = getch();
+    } while (res != 13);
+
+}
+
 void afficherReglesPages(int selection);
 
 void reglesDuJeu() {

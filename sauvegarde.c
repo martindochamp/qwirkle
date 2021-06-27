@@ -95,6 +95,7 @@ void lancerPartie(t_partie partie) {
     afficherPlateau(partie.plateau);
 
     bool finJeu = false;
+    bool victoire = false;
 
     while (!finJeu) {
         int tourJoueur = partie.nbTour % partie.nbJoueur;
@@ -149,12 +150,13 @@ void lancerPartie(t_partie partie) {
             } while (res != 13);
 
             if (selection == 1) {
+                //Placement tuile
                 do {
                     recupererPlacement(partie.joueurs[tourJoueur].main, &tuile, &coordsX, &coordsY);
-                } while(!placementValide(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY, partie.nbTour));
+                } while(!placementValideV2(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY));
 
                 jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY);
-                remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index);
+                remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index, partie.nbJoueur);
                 partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, coordsX, coordsY);
             } else {
                 //Echange de tuile
@@ -203,23 +205,37 @@ void lancerPartie(t_partie partie) {
                     res = getch();
                 } while (res != 13);
 
-                for (int i = 0; i < 6; i++) {
-                    //On échange les tuiles demandées
-                    if (tuilesSelectionnees[i] != 0) {
+                //On échange les tuiles demandées
+                for (int i = 0; i < 6; i++)
+                    if (tuilesSelectionnees[i] != 0)
                         echangerTuile(&partie.joueurs[tourJoueur].main[tuilesSelectionnees[i]-1], partie.pioche, partie.index, partie.modeDeJeu);
-                    }
-                }
             }
         } else {
             //Le joueur n'est pas humain
             int x, y, numeroTuile;
             testerCoups(partie.plateau, partie.joueurs[tourJoueur].main, &x, &y, &numeroTuile, partie.nbTour);
             jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[numeroTuile], x, y);
-            remplacerTuile(&partie.joueurs[tourJoueur].main[numeroTuile], partie.pioche, &partie.index);
+            remplacerTuile(&partie.joueurs[tourJoueur].main[numeroTuile], partie.pioche, &partie.index, partie.modeDeJeu);
             partie.joueurs[tourJoueur].score += calculPoints(partie.plateau, x, y);
         }
 
-        if (((partie.nbTour+1) % partie.nbJoueur == 0) && partie.nbTour != 0) {
+        //Vérification victoire/fin de jeu
+        int lim = partie.modeDeJeu == 1 ? 108 : 36;
+
+        int tuilesMainsRestantes = 0;
+        for (int i = 0; i < partie.nbJoueur; i ++)
+            for (int j = 0; j < 6; j++)
+                if (partie.joueurs[i].main[j].forme != ' ')
+                    tuilesMainsRestantes++;
+
+        if (partie.index >= lim && tuilesMainsRestantes == 0) {
+            //Fin de jeu
+            menuFinDeJeu(partie);
+            victoire = true;
+            break;
+        }
+
+        if (((partie.nbTour+1) % partie.nbJoueur == 0) && partie.nbTour != 0 && victoire == false) {
             positionnerCurseur(60, 20);
             Color(11, 0);
             printf("1. Continuer");
@@ -252,4 +268,3 @@ void lancerPartie(t_partie partie) {
         partie.nbTour += 1;
     }
 }
-

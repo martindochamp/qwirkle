@@ -56,6 +56,11 @@ int main()
 }
 
 void afficherKb() {
+    system("cls");
+    for (int i = 0; i < 16; i++) {
+        Color(i, 0);
+        printf("Couleur #%d ", i);
+    }
     int res;
     while(true) {
         while(!kbhit());

@@ -96,23 +96,33 @@ void afficherDeck(t_tuile* tuiles)
     }
 }
 
-void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index) {
-    tuile->couleur = pioche[*index].couleur;
-    tuile->forme = pioche[*index].forme;
-    *index += 1;
+void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index, int modeDeJeu) {
+    int lim = modeDeJeu == 1 ? 108 : 36;
+    if (*index < lim) {
+        tuile->couleur = pioche[*index].couleur;
+        tuile->forme = pioche[*index].forme;
+        *index += 1;
+    } else {
+        tuile->couleur = 0;
+        tuile->forme = ' ';
+    }
 }
 
 void echangerTuile(t_tuile* tuile, t_tuile pioche[108], int index, int modeDeJeu) {
-    t_tuile tuileAEchanger;
-    tuileAEchanger.couleur = tuile->couleur;
-    tuileAEchanger.forme = tuile->forme;
+    int lim = modeDeJeu == 1 ? 108 : 36;
 
-    //Mélange pioche avant d'échanger
-    int alea = rand() % (modeDeJeu == 1 ? 108 : 36) + index;
-    tuile->couleur = pioche[alea].couleur;
-    tuile->forme = pioche[alea].forme;
-    pioche[alea] = tuileAEchanger;
+    if (index < lim) {
+        t_tuile tuileAEchanger;
+        tuileAEchanger.couleur = tuile->couleur;
+        tuileAEchanger.forme = tuile->forme;
 
+        //Mélange pioche avant d'échanger
+        int alea = rand() % (modeDeJeu == 1 ? 108 : 36) + index;
+        tuile->couleur = pioche[alea].couleur;
+        tuile->forme = pioche[alea].forme;
+        pioche[alea].couleur = tuileAEchanger.couleur;
+        pioche[alea].forme = tuileAEchanger.forme;
+    }
 }
 
 void prgmTuiles() {

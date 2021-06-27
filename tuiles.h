@@ -23,7 +23,7 @@ void retournerNomTuile(t_tuile tuile, char* nomTuile);
 
 void distribuerTuiles(t_tuile main[6], t_tuile pioche[108], int* index);
 
-void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index);
+void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index, int modeDeJeu);
 
 void echangerTuile(t_tuile* tuile, t_tuile pioche[108], int index, int modeDeJeu);
 

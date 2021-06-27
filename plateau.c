@@ -7,6 +7,24 @@
 #include "plateau.h"
 #include "sauvegarde.h"
 
+bool visiterTuileCouleur(t_tuile p[26][12], t_tuile tuile, int x, int y, int dirX, int dirY) {
+    if (p[x+dirX][y+dirY].forme == ' ' || x+dirX < 0 || x+dirX > 25 || y+dirY < 0 || y+dirY > 11)
+        return true;
+    else if (p[x+dirX][y+dirY].couleur == tuile.couleur)
+        visiterTuileCouleur(p, tuile, x+dirX, y+dirY, dirX, dirY);
+    else
+        return false;
+}
+
+bool visiterTuileForme(t_tuile p[26][12], t_tuile tuile, int x, int y, int dirX, int dirY) {
+    if (p[x+dirX][y+dirY].forme == ' ' || x+dirX < 0 || x+dirX > 25 || y+dirY < 0 || y+dirY > 11)
+        return true;
+    else if (p[x+dirX][y+dirY].forme == tuile.forme)
+        visiterTuileForme(p, tuile, x+dirX, y+dirY, dirX, dirY);
+    else
+        return false;
+}
+
 void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
     plateau[x][y].couleur = tuile.couleur;
     plateau[x][y].forme = tuile.forme;
@@ -17,89 +35,72 @@ void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
     Color(15, 0);
 }
 
-bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y, int coup) {
-    if (coup == 0)
+bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y) {
+    //Premier coup sur plateau toujours valide
+    int nbTuile = 0;
+    for (int i = 0; i < 26; i++)
+        for (int j = 0; j < 12; j++)
+            if (p[i][j].forme != ' ')
+                nbTuile++;
+
+    if (nbTuile == 0)
         return true;
 
-    bool placementEnX = true;
-    bool placementEnY = true;
-
-    //Test en X
-    if (p[x+1][y].forme != ' ' || p[x-1][y].forme != ' ') {
-        if (p[x+1][y].couleur == tuile.couleur || p[x-1][y].couleur == tuile.couleur) {
-            int j = 1;
-            while (p[x+j][y].forme != ' ') {
-                if (p[x+j][y].forme == tuile.forme || p[x+j][y].forme != p[x+j-1][y].forme)
-                    placementEnX = false;
-                j++;
-            }
-            j = 1;
-
-            while (p[x-j][y].forme != ' ') {
-                if (p[x-j][y].forme == tuile.forme || p[x-j][y].forme != p[x-j+1][y].forme)
-                    placementEnX = false;
-                j++;
-            }
-        } else if (p[x+1][y].forme == tuile.forme || p[x-1][y].forme == tuile.forme) {
-            int j = 1;
-            while (p[x+j][y].forme != ' ') {
-                if (p[x+j][y].couleur == tuile.couleur || p[x+j][y].forme != p[x+j-1][y].forme)
-                    placementEnX = false;
-                j++;
-            }
-            j = 1;
-
-            while (p[x-j][y].forme != ' ') {
-                if (p[x-j][y].couleur == tuile.couleur || p[x-j][y].couleur != p[x-j+1][y].couleur)
-                    placementEnX = false;
-                j++;
-            }
-        } else {
-            placementEnX = false;
+    int nbTuileCotes = 0;
+    int dir[4] = {1, -1, 0, 0};
+    for (int i = 0; i < 4; i++) {
+        if (p[x+dir[i]][y+dir[3-i]].forme != ' ' && x+dir[i] >= 0 && x+dir[i] < 26 && y+dir[3-i] >= 0 && y+dir[3-i] < 12) {
+            nbTuileCotes++;
         }
     }
 
-    //Test en Y
-    if (p[x][y+1].forme != ' ' || p[x][y-1].forme != ' ') {
-        if (p[x][y+1].couleur == tuile.couleur || p[x][y-1].couleur == tuile.couleur) {
-            int j = 1;
-            while (p[x][y+j].forme != ' ') {
-                if (p[x][y+j].forme == tuile.forme || p[x][y+j].forme != p[x][y+j-1].forme)
-                    placementEnY = false;
-                j++;
-            }
-            j = 1;
-
-            while (p[x][y-j].forme != ' ') {
-                if (p[x][y-j].forme == tuile.forme || p[x][y-j].forme != p[x][y-j+1].forme)
-                    placementEnY = false;
-                j++;
-            }
-        } else if (p[x][y+1].forme == tuile.forme || p[x][y-1].forme == tuile.forme) {
-            int j = 1;
-            while (p[x][y+j].forme != ' ') {
-                if (p[x][y+j].couleur == tuile.couleur || p[x][y+j].couleur != p[x][y+j-1].couleur)
-                    placementEnY = false;
-                j++;
-            }
-            j = 1;
-
-            while (p[x][y-j].forme != ' ') {
-                if (p[x][y-j].couleur == tuile.couleur || p[x][y-j].couleur != p[x][y-j+1].couleur)
-                    placementEnY = false;
-                j++;
-            }
-        } else {
-            placementEnX = false;
-        }
-    }
-
-    if (placementEnX && placementEnY) {
-        return true;
-    } else {
+    if (nbTuileCotes == 0)
         return false;
+
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 60; j++) {
+            positionnerCurseur(0+j, 25+i);
+            printf(" ");
+        }
+    }
+    bool placement = true;
+    for (int i = 0; i < 4; i++) {
+        if (visiterTuileCouleur(p, tuile, x, y,  dir[i], dir[3-i])) {
+            positionnerCurseur(15*i, 25);
+            printf("Couleur :ok: ");
+        }
+        if (visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])) {
+            positionnerCurseur(15*i, 26);
+            printf("Forme :ok: ");
+        }
+        if (visiterTuileCouleur(p, tuile, x, y,  dir[i], dir[3-i]) || visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])) {
+            positionnerCurseur(15*i, 27);
+            printf("Placement:ok: ");
+        } else {
+            placement = false;
+        }
     }
 
+    return placement;
+
+
+    while(true);
+    for (int i = 0; i < 4; i++) {
+        if (visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])) {
+            positionnerCurseur(12*i, 26);
+            printf("Forme :ok: ");
+        }
+    }
+
+    Sleep(4000);
+
+    if (nbTuileCotes != 0)
+        return true;
+
+
+
+    return false;
 }
 
 bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int coup) {
