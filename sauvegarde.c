@@ -8,6 +8,59 @@
 #include "etatJeu.h"
 #include "ia.h"
 #include "interfaces.h"
+#include <string.h>
+
+
+
+void sauvegarderScores(t_partie partie) {
+
+    FILE* fp;
+    t_scores scores;
+    for (int i = 0; i < 20; i++) {
+        strcpy(scores.listeScores[i].pseudo, "\0");
+        scores.listeScores[i].score = 0;
+    }
+
+    fp = fopen("scores.dat", "rb");
+
+    if (fp == NULL)
+        exit(1);
+
+    while (fread(&scores, sizeof(t_scores), 1, fp) != NULL);
+
+    fclose(fp);
+
+    //On vérifie si le joueur a déjà son score inséré
+    for (int i = 0; i < partie.nbJoueur; i++) {
+        for (int j = 0; j < 100; j++) {
+            if (!(scores.listeScores[j].score <= 0 ||
+                scores.listeScores[j].score > 200)) {
+                if (strcasecmp(scores.listeScores[j].pseudo, partie.joueurs[i].pseudo) == 0) {
+                    if (scores.listeScores[j].score < partie.joueurs[i].score) {
+                        scores.listeScores[j].score = partie.joueurs[i].score;
+                    }
+                    break;
+                }
+            } else {
+                scores.listeScores[j].score = partie.joueurs[i].score;
+                strcpy(scores.listeScores[j].pseudo, partie.joueurs[i].pseudo);
+                break;
+            }
+        }
+    }
+
+    FILE *fp2;
+
+    fp2 = fopen("scores.dat", "wb");
+
+    if (fp2 == NULL)
+        exit(1);
+
+    fwrite(&scores, sizeof(t_scores), 1, fp2);
+
+    fclose(fp2);
+
+}
 
 void menuSauvegardes() {
     system("cls");
@@ -81,7 +134,7 @@ void chargerParties(t_partie* parties) {
 
     FILE *fp;
 
-    fp = fopen ("parties.dat", "rb");
+    fp = fopen("parties.dat", "rb");
 
     if (fp == NULL)
         exit(1);
@@ -246,6 +299,7 @@ void lancerPartie(t_partie partie) {
 
         if (partie.index >= lim && tuilesMainsRestantes == 0) {
             //Fin de jeu
+            sauvegarderScores(partie);
             menuFinDeJeu(partie);
             victoire = true;
             break;

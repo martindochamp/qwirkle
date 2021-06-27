@@ -3,6 +3,7 @@
 
 #include "tuiles.h"
 #include <stdbool.h>
+#include <conio.h>
 
 typedef struct Joueur {
     bool humain;
@@ -20,6 +21,15 @@ typedef struct Partie {
     t_tuile plateau[26][12];
     t_tuile pioche[108];
 } t_partie;
+
+typedef struct Score {
+    char pseudo[20];
+    int score;
+} t_score;
+
+typedef struct Scores {
+    t_score listeScores[100];
+} t_scores;
 
 void chargerParties(t_partie* parties);
 void sauvegarderPartie(t_partie partie);

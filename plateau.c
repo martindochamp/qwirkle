@@ -38,6 +38,7 @@ void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
 }
 //Vérification si le placement est bon
 bool placementValide(t_tuile p[26][12], t_tuile tuile, int x, int y) {
+
     //Interdit de placer sur une tuile existante
     if (p[x][y].forme != ' ')
         return false;

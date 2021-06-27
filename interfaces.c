@@ -6,6 +6,90 @@
 #include <stdlib.h>
 #include <windows.h>
 
+void afficherMenuScores() {
+    system("cls");
+    positionnerCurseur(52, 6);
+    Color(11, 0);
+    printf("%c%c%c", 0xCD, 0xCD, 0xCD);
+
+    Color(15, 0);
+    printf(" Scores ");
+
+    Color(11, 0);
+    printf("%c%c%c", 0xCD, 0xCD, 0xCD);
+
+    positionnerCurseur(41, 26);
+    Color(15, 0);
+    printf("Appuyer sur entr%ce pour revenir au menu", 0x82);
+
+    FILE* fp;
+    t_scores scores;
+
+    fp = fopen("scores.dat", "rb");
+
+    if (fp == NULL)
+        exit(1);
+
+    while (fread(&scores, sizeof(t_scores), 1, fp) != NULL);
+
+    fclose(fp);
+
+    int i = 0;
+    while (scores.listeScores[i].score != 0 && scores.listeScores[i].score < 200) {
+        positionnerCurseur(20, 8+i);
+        Color(7, 0);
+        printf("- ");
+        Color(15, 0);
+        printf("%s ", scores.listeScores[i].pseudo);
+        Color(11, 0);
+        printf("%d", scores.listeScores[i].score);
+        i++;
+    }
+
+    int res;
+    do {
+        while (!kbhit());
+        res = getch();
+    } while (res != 13);
+}
+
+void menuCredits() {
+    system("cls");
+    positionnerCurseur(51, 11);
+    Color(11, 0);
+    printf("%c%c%c", 0xCD, 0xCD, 0xCD);
+
+    Color(15, 0);
+    printf(" Cr%cdits ", 0x82);
+
+    Color(11, 0);
+    printf("%c%c%c", 0xCD, 0xCD, 0xCD);
+
+
+    positionnerCurseur(51, 13);
+    Color(13, 0);
+    printf("%c ", 0x06);
+    Color(15, 0);
+    printf(" Martin Condet");
+
+    positionnerCurseur(51, 14);
+    Color(15, 0);
+    printf("%c ", 0x0F);
+    Color(15, 0);
+    printf(" Emma Terrat");
+
+    positionnerCurseur(51, 15);
+    Color(4, 0);
+    printf("%c ", 0x03);
+    Color(15, 0);
+    printf(" Lisa Amalou");
+
+    positionnerCurseur(41, 24);
+    Color(15, 0);
+    printf("Appuyer sur entr%ce pour revenir au menu", 0x82);
+
+}
+
 void menuFinDeJeu(t_partie partie) {
     system("cls");
     positionnerCurseur(50, 8);
@@ -59,13 +143,11 @@ void menuFinDeJeu(t_partie partie) {
     Color(15, 0);
     printf("Appuyer sur entr%ce pour revenir au menu", 0x82);
 
-
     int res;
     do {
         while (!kbhit());
         res = getch();
     } while (res != 13);
-
 }
 
 void afficherReglesPages(int selection);
@@ -212,5 +294,8 @@ void afficherReglesPages(int selection) {
                 printf("%c", demo[i][j].forme);
             }
 
+        positionnerCurseur(41, 24);
+        Color(15, 0);
+        printf("Appuyer sur entr%ce pour revenir au menu", 0x82);
     }
 }

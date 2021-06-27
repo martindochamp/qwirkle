@@ -21,6 +21,7 @@ int menuLancement();
 void cacherCurseur();
 void afficherKb();
 void afficherCurseurCoeur(int phrase, int choix);
+void afficherCredits();
 
 int main()
 {
@@ -45,30 +46,28 @@ int main()
                 reglesDuJeu();
                 break;
             case 4:
-                afficherKb();
+                afficherMenuScores();
                 break;
             case 5:
+                afficherCredits();
+                break;
+            case 6:
                 PostMessage(GetConsoleWindow(), WM_CLOSE, 0, 0);
         }
-    } while (choixMenu != 5);
+    } while (choixMenu != 7);
 
     return 0;
 }
 
-void afficherKb() {
-    system("cls");
-    for (int i = 0; i < 16; i++) {
-        Color(i, 0);
-        printf("Couleur #%d ", i);
-    }
+void afficherCredits() {
+    menuCredits();
     int res;
-    while(true) {
+    do {
         while(!kbhit());
         res = getch();
-        system("cls");
-        printf("%d", res);
-    }
+    } while (res != 13);
 }
+
 
 int menuLancement() {
     system("cls");
@@ -94,8 +93,8 @@ int menuLancement() {
     Color(15, 0);
 
     int selection = 1;
-    int marges[5] = {2, 1, 4, 7, 7};
-    for (int i = 0; i < 5; i++) {
+    int marges[6] = {2, 1, 4, 8, 7, 7};
+    for (int i = 0; i < 6; i++) {
         positionnerCurseur(45+marges[i], 13+i);
         afficherCurseurCoeur(i, selection);
     }
@@ -108,7 +107,7 @@ int menuLancement() {
         if (res == 72 && selection > 1)
             selection--;
 
-        if (res == 80 && selection < 5)
+        if (res == 80 && selection < 6)
             selection++;
 
         //On efface les choix qui changent
@@ -129,7 +128,7 @@ int menuLancement() {
 }
 
 void afficherCurseurCoeur(int phrase, int choix) {
-    char phrases[5][30] = {"Lancer une partie", "Reprendre la partie", "Regles du jeu", "Credits", "Quitter"};
+    char phrases[6][30] = {"Lancer une partie", "Reprendre la partie", "Regles du jeu", "Scores", "Credits", "Quitter"};
     if (phrase+1 == choix) {
         Color(11, 0);
         printf("%c %c ", 0x06, 0x04);
