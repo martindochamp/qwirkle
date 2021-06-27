@@ -5,28 +5,8 @@
 #include <time.h>
 #include <string.h>
 
-/*
-    - Demander au joueur les tuile qui veut échanger
-    - Les échanger si il en reste dans la pioche
-*/
-
-/*void echangerTuile(t_tuile main[6]) //
-{
-    positionnerCurseur(60,60);
-    Color(11,0);
-    printf("Echanger des tuiles? Combien?");
-
-    do{
-        while(!kbhit());
-        touche = getch();
-    }while(!(touche>=49 && touche<=54));
-
-    for (int i=0; i<touche; i++){
-        remplacerTuile(tuile, pioche, index);
-    }
-}*/
-
-void Color(int couleurDuTexte,int couleurDeFond) // fonction d'affichage de couleurs
+//Affichage couleur, source : Campus
+void Color(int couleurDuTexte,int couleurDeFond)
 {
     HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
@@ -46,14 +26,14 @@ void genererPioche(t_tuile tuiles[108], int modeDeJeu)
                 tuiles[index].forme = formes[j];
                 index++;
             }
-    //On mélange la pioche
     srand(time(NULL));
     char formeTemp;
     int tuileAlea1, tuileAlea2, couleurTemp;
 
+    //On mélange la pioche 100 fois
     for (int i = 0; i < 100; i++) {
-        tuileAlea1 = rand() % index;
-        tuileAlea2 = rand() % index;
+        tuileAlea1 = rand() % (lim*36);
+        tuileAlea2 = rand() % (lim*36);
 
         couleurTemp = tuiles[tuileAlea1].couleur;
         formeTemp = tuiles[tuileAlea1].forme;
@@ -66,6 +46,7 @@ void genererPioche(t_tuile tuiles[108], int modeDeJeu)
     }
 }
 
+//Distribution de 6 tuiles pour le joueur
 void distribuerTuiles(t_tuile main[6], t_tuile pioche[108], int* index) {
     for (int i = 0; i < 6; i++) {
         main[i] = pioche[*index];
@@ -73,31 +54,9 @@ void distribuerTuiles(t_tuile main[6], t_tuile pioche[108], int* index) {
     }
 }
 
-void afficherMainsJoueurs(t_tuile mains[4][6], char pseudos[4][20], int nbJoueurs) {
-    system("cls");
-    printf("Mains des joueurs :\n\n");
-    for (int i = 0; i < nbJoueurs; i++) {
-        printf("- Main de %s\n", pseudos[i]);
-        for (int j = 0; j < 6; j++) {
-            Color(mains[i][j].couleur, 0);
-            printf("%c", mains[i][j].forme);
-            Color(15, 0);
-        }
-        printf("\n");
-    }
-}
-
-void afficherDeck(t_tuile* tuiles)
-{
-    for (int i = 0; i < 36; i++) {
-        Color(tuiles[i].couleur, 0);
-        printf("%c", tuiles[i].forme);
-        Color(15, 0);
-    }
-}
-
+//Pioche une nouvelle tuile
 void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index, int modeDeJeu) {
-    int lim = modeDeJeu == 1 ? 108 : 36;
+    int lim = (modeDeJeu == 1) ? 108 : 36;
     if (*index < lim) {
         tuile->couleur = pioche[*index].couleur;
         tuile->forme = pioche[*index].forme;
@@ -108,6 +67,7 @@ void remplacerTuile(t_tuile* tuile, t_tuile pioche[108], int* index, int modeDeJ
     }
 }
 
+//Echange de tuile avec une aléatoire dans la pioche
 void echangerTuile(t_tuile* tuile, t_tuile pioche[108], int index, int modeDeJeu) {
     int lim = modeDeJeu == 1 ? 108 : 36;
 
@@ -125,13 +85,7 @@ void echangerTuile(t_tuile* tuile, t_tuile pioche[108], int index, int modeDeJeu
     }
 }
 
-void prgmTuiles() {
-    system("cls");
-    t_tuile* tuiles = (t_tuile*) malloc(36*sizeof(t_tuile));
-    genererPioche(tuiles, 2);
-    afficherDeck(tuiles);
-}
-
+//Retourne le nom de la tuile en fonction de sa forme et de sa couleur
 void retournerNomTuile(t_tuile tuile, char* nomTuile)
 {
     char chaine1[20];

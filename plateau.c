@@ -7,6 +7,7 @@
 #include "plateau.h"
 #include "sauvegarde.h"
 
+//Fonction récursive, vérifie que la couleur est bonne en fonction de l'axe
 bool visiterTuileCouleur(t_tuile p[26][12], t_tuile tuile, int x, int y, int dirX, int dirY) {
     if (p[x+dirX][y+dirY].forme == ' ' || x+dirX < 0 || x+dirX > 25 || y+dirY < 0 || y+dirY > 11)
         return true;
@@ -15,7 +16,7 @@ bool visiterTuileCouleur(t_tuile p[26][12], t_tuile tuile, int x, int y, int dir
     else
         return false;
 }
-
+//Fonction récursive, vérifie que la forme est bonne en fonction de l'axe
 bool visiterTuileForme(t_tuile p[26][12], t_tuile tuile, int x, int y, int dirX, int dirY) {
     if (p[x+dirX][y+dirY].forme == ' ' || x+dirX < 0 || x+dirX > 25 || y+dirY < 0 || y+dirY > 11)
         return true;
@@ -25,6 +26,7 @@ bool visiterTuileForme(t_tuile p[26][12], t_tuile tuile, int x, int y, int dirX,
         return false;
 }
 
+//On place la tuile dans le plateau, et on l'affiche à ses coordonnées
 void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
     plateau[x][y].couleur = tuile.couleur;
     plateau[x][y].forme = tuile.forme;
@@ -34,8 +36,12 @@ void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y) {
     printf("%c", plateau[x][y].forme);
     Color(15, 0);
 }
+//Vérification si le placement est bon
+bool placementValide(t_tuile p[26][12], t_tuile tuile, int x, int y) {
+    //Interdit de placer sur une tuile existante
+    if (p[x][y].forme != ' ')
+        return false;
 
-bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y) {
     //Premier coup sur plateau toujours valide
     int nbTuile = 0;
     for (int i = 0; i < 26; i++)
@@ -46,6 +52,7 @@ bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y) {
     if (nbTuile == 0)
         return true;
 
+    //Si aucune tuile autour, placement faux
     int nbTuileCotes = 0;
     int dir[4] = {1, -1, 0, 0};
     for (int i = 0; i < 4; i++) {
@@ -57,107 +64,23 @@ bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y) {
     if (nbTuileCotes == 0)
         return false;
 
-
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 60; j++) {
-            positionnerCurseur(0+j, 25+i);
-            printf(" ");
-        }
-    }
     bool placement = true;
     for (int i = 0; i < 4; i++) {
-        if (visiterTuileCouleur(p, tuile, x, y,  dir[i], dir[3-i])) {
-            positionnerCurseur(15*i, 25);
-            printf("Couleur :ok: ");
-        }
-        if (visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])) {
-            positionnerCurseur(15*i, 26);
-            printf("Forme :ok: ");
-        }
-        if (visiterTuileCouleur(p, tuile, x, y,  dir[i], dir[3-i]) || visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])) {
-            positionnerCurseur(15*i, 27);
-            printf("Placement:ok: ");
-        } else {
+        if (!(visiterTuileCouleur(p, tuile, x, y,  dir[i], dir[3-i]) || visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])))
             placement = false;
-        }
     }
 
     return placement;
-
-
-    while(true);
-    for (int i = 0; i < 4; i++) {
-        if (visiterTuileForme(p, tuile, x, y,  dir[i], dir[3-i])) {
-            positionnerCurseur(12*i, 26);
-            printf("Forme :ok: ");
-        }
-    }
-
-    Sleep(4000);
-
-    if (nbTuileCotes != 0)
-        return true;
-
-
-
-    return false;
 }
-
-bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int coup) {
-    //Le premier coup est toujours bon
-    if (coup == 0)
-        return true;
-
-    if (plateau[x][y].forme != ' ')
-        return false;
-
-    int directions[4] = {1, -1, 0, 0};
-
-    //Vérification si la tuile n'est pas isolée
-    int tuileCotes = 0;
-    for (int i = 0; i < 4; i++) {
-        if (x+directions[i] < 26 && x+directions[i] > 0 &&
-           y+directions[3-i] < 12 && y+directions[3-i] > 0) {
-            if (plateau[x+directions[i]][y+directions[3-i]].forme != ' ') {
-                tuileCotes++;
-            }
-        }
-    }
-
-    if (tuileCotes == 0)
-        return false;
-
-    bool couleurPresente = false, formePresente = false, couleurDifferente = false, formeDifferente = false;
-
-    for (int i = 0; i < 4; i++) {
-        int j = 1;
-        couleurDifferente = true;
-        while (x+(directions[i]*j) < 26 && x+(directions[i]*j) > 0 &&
-                y+(directions[3-i]*j) < 12 && y+(directions[3-i]*j) > 0) {
-            if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != ' ') {
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur == tuile.couleur)
-                    couleurPresente = true;
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme == tuile.forme)
-                    formePresente = true;
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].couleur != tuile.couleur)
-                    couleurDifferente = true;
-                if (plateau[x+(directions[i]*j)][y+(directions[3-i]*j)].forme != tuile.forme)
-                    formeDifferente = true;
-            } else
-                break;
-            j++;
-        }
-    }
-
-    if (((couleurDifferente && !formeDifferente) || (!couleurDifferente&& formeDifferente)) && (formePresente || couleurPresente))
-        return true;
-
-    return false;
-}
-
+//On récupére les coordonées et la tuile à jouer souhaitée
 void recupererPlacement(t_tuile main[6], int* tuile, int* coordsX, int* coordsY){
     int x = 0;
     int y = 0;
+
+    int nbTuile = 0;
+    for (int i = 0; i < 6; i++)
+        if (main[i].forme != ' ')
+            nbTuile++;
 
     //Demande tuile à jouer
     int res;
@@ -165,8 +88,9 @@ void recupererPlacement(t_tuile main[6], int* tuile, int* coordsX, int* coordsY)
     do {
         if (res == 75 && tuileSelectionne > 1)
             tuileSelectionne--;
-        if (res ==  77 && tuileSelectionne < 6)
+        if (res ==  77 && tuileSelectionne < nbTuile)
             tuileSelectionne++;
+
         positionnerCurseur(70 + (tuileSelectionne-1)*2, 6);
         HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
         CONSOLE_CURSOR_INFO info;
@@ -217,6 +141,11 @@ void afficherMain(t_joueur joueur) {
         printf(" ");
     }
 
+    for (int i = 0; i < 20; i++) {
+        positionnerCurseur(70+i, 6);
+        printf(" ");
+    }
+
     positionnerCurseur(MARGEX, 2);
     Color(15, 0);
     printf("%s ", joueur.pseudo);
@@ -230,8 +159,10 @@ void afficherMain(t_joueur joueur) {
     //Affichage tuiles joueurs
     for (int i = 0; i < 6; i++) {
         Color(joueur.main[i].couleur, 0);
-        printf("%c ", joueur.main[i].forme);
+        positionnerCurseur(70+(i*2), 6);
+        printf("%c", joueur.main[i].forme);
     }
+
 }
 
 void afficherTitre() {
@@ -302,7 +233,7 @@ void afficherPlateau(t_tuile plateau[26][12]) {
     afficherTitre();
 }
 
-//Fonction récupérer sur les ressources de campus, le nom des variables est légérement modifié
+//Fonction récupérée sur les ressources de campus, le nom des variables est légérement modifié
 void positionnerCurseur(int x, int y){
     COORD coords;
     coords.X = x;

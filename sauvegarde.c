@@ -7,6 +7,7 @@
 #include "tuiles.h"
 #include "etatJeu.h"
 #include "ia.h"
+#include "interfaces.h"
 
 void menuSauvegardes() {
     system("cls");
@@ -100,7 +101,22 @@ void lancerPartie(t_partie partie) {
     while (!finJeu) {
         int tourJoueur = partie.nbTour % partie.nbJoueur;
         if (partie.joueurs[tourJoueur].humain) {
-            afficherMain(partie.joueurs[partie.nbTour % partie.nbJoueur]);
+
+            //On réorganise la main si des tuiles sont manquantes
+            for (int i = 0; i < 5; i++) {
+                if (partie.joueurs[tourJoueur].main[i].forme == ' ') {
+                    for (int j = i+1; j < 6; j++) {
+                        if (partie.joueurs[tourJoueur].main[j].forme != ' ') {
+                            partie.joueurs[tourJoueur].main[i].forme = partie.joueurs[tourJoueur].main[j].forme;
+                            partie.joueurs[tourJoueur].main[i].couleur = partie.joueurs[tourJoueur].main[j].couleur;
+                            partie.joueurs[tourJoueur].main[j].forme = ' ';
+                            partie.joueurs[tourJoueur].main[j].couleur = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+            afficherMain(partie.joueurs[tourJoueur]);
 
             int tuile = 0;
             int coordsX = 0;
@@ -153,7 +169,7 @@ void lancerPartie(t_partie partie) {
                 //Placement tuile
                 do {
                     recupererPlacement(partie.joueurs[tourJoueur].main, &tuile, &coordsX, &coordsY);
-                } while(!placementValideV2(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY));
+                } while(!placementValide(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY));
 
                 jouerPlacement(partie.plateau, partie.joueurs[tourJoueur].main[tuile], coordsX, coordsY);
                 remplacerTuile(&partie.joueurs[tourJoueur].main[tuile], partie.pioche, &partie.index, partie.nbJoueur);
@@ -236,31 +252,92 @@ void lancerPartie(t_partie partie) {
         }
 
         if (((partie.nbTour+1) % partie.nbJoueur == 0) && partie.nbTour != 0 && victoire == false) {
-            positionnerCurseur(60, 20);
-            Color(11, 0);
-            printf("1. Continuer");
-            positionnerCurseur(60, 21);
-            printf("2. Quitter");
+            int selection = 1;
             int saisie;
+
             do {
+                if (saisie == 72 && selection > 1)
+                    selection--;
+                if (saisie == 80 && selection < 2)
+                    selection++;
+
+                for (int i = 0; i < 2; i++)
+                    for (int j = 0; j < 20; j++) {
+                        positionnerCurseur(70+j, 14+i);
+                        printf(" ");
+                    }
+
+                if (selection == 1) {
+                    positionnerCurseur(70, 14);
+                    Color(6, 0);
+                    printf("%c %c ", 0x03, 0x04);
+                    Color(15, 0);
+                    printf("Continuer");
+                    positionnerCurseur(74, 15);
+                    Color(7, 0);
+                    printf("Quitter");
+                } else {
+                    positionnerCurseur(74, 14);
+                    Color(7, 0);
+                    printf("Continuer");
+                    positionnerCurseur(70, 15);
+                    Color(6, 0);
+                    printf("%c %c ", 0x03, 0x04);
+                    Color(15, 0);
+                    printf("Quitter");
+                }
+
                 while (!kbhit());
                 saisie = getch();
-            } while (!(saisie == 49 || saisie == 50));
+            } while (saisie != 13);
 
-            if (saisie == 50) {
-                positionnerCurseur(60, 20);
-                Color(11, 0);
-                printf("1. Sauvegarder");
-                positionnerCurseur(60, 21);
-                printf("2. Quitter");
-                int saisie2;
+            //On supprime la zone
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 20; j++) {
+                    positionnerCurseur(70+j, 14+i);
+                    printf(" ");
+                }
+
+            if (selection == 2) {
+                selection = 1;
                 do {
+                    if (saisie == 72 && selection > 1)
+                        selection--;
+                    if (saisie == 80 && selection < 2)
+                        selection++;
+
+                    for (int i = 0; i < 2; i++)
+                        for (int j = 0; j < 20; j++) {
+                            positionnerCurseur(70+j, 14+i);
+                            printf(" ");
+                        }
+
+                    if (selection == 1) {
+                        positionnerCurseur(70, 14);
+                        Color(6, 0);
+                        printf("%c %c ", 0x03, 0x04);
+                        Color(15, 0);
+                        printf("Sauvegarder");
+                        positionnerCurseur(74, 15);
+                        Color(7, 0);
+                        printf("Quitter");
+                    } else {
+                        positionnerCurseur(74, 14);
+                        Color(7, 0);
+                        printf("Sauvegarder");
+                        positionnerCurseur(70, 15);
+                        Color(6, 0);
+                        printf("%c %c ", 0x03, 0x04);
+                        Color(15, 0);
+                        printf("Quitter");
+                    }
+
                     while (!kbhit());
-                    saisie2 = getch();
-                } while (!(saisie2 == 49 || saisie2 == 50));
+                    saisie = getch();
+                } while (saisie != 13);
 
                 finJeu = true;
-                if (saisie2 == 49) {
+                if (selection == 1) {
                     sauvegarderPartie(partie);
                 }
             }

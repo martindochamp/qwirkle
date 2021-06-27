@@ -17,12 +17,13 @@ void testerCoups(t_tuile plateau[26][12], t_tuile main[6], int* x, int* y, int* 
         for (int j= 0; j < 12; j++)
             if (plateau[i][j].forme == ' ')
                 for (int k = 0; k < 6; k++)
-                    if (placementValideV2(plateau, main[k], i, j)) {
+                    if (placementValide(plateau, main[k], i, j)) {
                         int point = calculPoints(plateau, i, j);
                         if (point >= meilleurCoup.point) {
                             meilleurCoup.x = i;
                             meilleurCoup.y = j;
                             meilleurCoup.point = point;
+                            meilleurCoup.numeroTuile = k;
                         }
                     }
 

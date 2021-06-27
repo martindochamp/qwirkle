@@ -339,21 +339,3 @@ void afficherPoints(t_joueur joueurs[4], int nbJoueur) {
         printf("%d", joueurs[i].score);
     }
 }
-
-void afficherPseudos(int nbJoueurs, char pseudos[4][20]) {
-    system("cls");
-    for (int i = 0; i < nbJoueurs; i++)
-        printf("- %s\n", &pseudos[i][0]);
-}
-
-void afficherErreur(char* erreur) {
-    //On efface l'ancienne erreur
-    positionnerCurseur(10, 19);
-    for (int i = 0; i < 52; i++)
-        printf(" ");
-
-    positionnerCurseur(10, 19);
-    Color(12, 0);
-    printf("%s", erreur);
-    Color(15, 0);
-}

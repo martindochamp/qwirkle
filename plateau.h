@@ -18,9 +18,7 @@ void recupererPlacement(t_tuile main[6], int* tuile, int* coordsX, int* coordsY)
 
 void jouerPlacement(t_tuile plateau[26][12], t_tuile tuile, int x, int y);
 
-bool placementValide(t_tuile plateau[26][12], t_tuile tuile, int x, int y, int coup);
-
-bool placementValideV2(t_tuile p[26][12], t_tuile tuile, int x, int y);
+bool placementValide(t_tuile p[26][12], t_tuile tuile, int x, int y);
 
 int calculPoints(t_tuile plateau[26][12], int x, int y);
 
