@@ -49,8 +49,6 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="obj/Debug/icon.res" />
-		<Unit filename="obj/Debug/resources.res" />
 		<Unit filename="plateau.c">
 			<Option compilerVar="CC" />
 		</Unit>
