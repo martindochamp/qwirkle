@@ -16,6 +16,7 @@ bool visiterTuileCouleur(t_tuile p[26][12], t_tuile tuile, int x, int y, int dir
     else
         return false;
 }
+
 //Fonction récursive, vérifie que la forme est bonne en fonction de l'axe
 bool visiterTuileForme(t_tuile p[26][12], t_tuile tuile, int x, int y, int dirX, int dirY) {
     if (p[x+dirX][y+dirY].forme == ' ' || x+dirX < 0 || x+dirX > 25 || y+dirY < 0 || y+dirY > 11)

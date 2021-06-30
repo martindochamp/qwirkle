@@ -10,8 +10,6 @@
 #include "interfaces.h"
 #include <string.h>
 
-
-
 void sauvegarderScores(t_partie partie) {
 
     FILE* fp;
