@@ -1,8 +1,8 @@
-# Qwirkle
+# ![#4feaf0]Qwirkle
 
 Computer course project
 
-
+______________________________________________________
 
 
 ### Purpose
