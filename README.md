@@ -1,4 +1,4 @@
-# ![#4feaf0]Qwirkle
+# Qwirkle
 
 Computer course project
 
